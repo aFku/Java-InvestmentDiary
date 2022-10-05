@@ -1,6 +1,8 @@
 package com.rcbg.afku.investmentdiary.brokeraccounts.services;
 
+import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.ResponseAccountDTO;
 import com.rcbg.afku.investmentdiary.brokeraccounts.entities.Account;
+import com.rcbg.afku.investmentdiary.brokeraccounts.exceptions.AccountNotFoundException;
 import com.rcbg.afku.investmentdiary.brokeraccounts.exceptions.AccountSearchException;
 import com.rcbg.afku.investmentdiary.brokeraccounts.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountBrowseService {
@@ -22,34 +25,43 @@ public class AccountBrowseService {
         this.repo = accountRepository;
     }
 
-    public Account findOneAccountById(int id){
-        return repo.findById(id).orElse(null);
+    public ResponseAccountDTO findOneAccountById(int id){
+        Account account = repo.findById(id).orElseThrow( () -> new AccountNotFoundException("Account with id: " + id + " not found", 404));
+        return new ResponseAccountDTO(account);
     }
 
-    public List<Account> findAllAccounts(){
-        return repo.findAll();
+    public List<ResponseAccountDTO> findAllAccounts(){
+        return convertListOfAccountsToListOfDTOS(repo.findAll());
     }
 
-    public List<Account> findAllByField(String field, String value) throws ParseException, AccountSearchException {
-        List<Account> accounts = new ArrayList<>();
+    public List<ResponseAccountDTO> findAllByField(String field, String value){
+        List<ResponseAccountDTO> responseAccountDTOS = new ArrayList<>();
         switch (field){
             case "provider":
-                accounts = repo.findAllByProvider(value);
+                responseAccountDTOS = convertListOfAccountsToListOfDTOS(repo.findAllByProvider(value));
                 break;
             case "accountId":
-                accounts = repo.findAllByAccountId(value);
+                responseAccountDTOS = convertListOfAccountsToListOfDTOS(repo.findAllByAccountId(value));
                 break;
             case "creationDate":
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                accounts = repo.findAllByCreationDate(df.parse(value));
+                try {
+                    responseAccountDTOS = convertListOfAccountsToListOfDTOS(repo.findAllByCreationDate(df.parse(value)));
+                } catch (ParseException e) {
+                    throw new AccountSearchException(e.getMessage(), 400);
+                }
                 break;
             default:
                 throw new AccountSearchException("Invalid field name '" + field + "'", 400);
         }
-        return accounts;
+        return responseAccountDTOS;
     }
 
-    public List<Account> findAllCreatedBetween(Date start, Date stop){
-        return repo.findAllByCreationDateBetween(start, stop);
+    public List<ResponseAccountDTO> findAllCreatedBetween(Date start, Date stop){
+        return convertListOfAccountsToListOfDTOS(repo.findAllByCreationDateBetween(start, stop));
+    }
+
+    private List<ResponseAccountDTO> convertListOfAccountsToListOfDTOS(List<Account> accounts){
+        return accounts.stream().map(ResponseAccountDTO::new).collect( Collectors.toList());
     }
 }
