@@ -4,7 +4,6 @@ import com.rcbg.afku.investmentdiary.brokeraccounts.entities.Account;
 
 
 import java.util.Date;
-import java.util.TimeZone;
 
 public class ResponseAccountDTO {
 

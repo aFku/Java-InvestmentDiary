@@ -67,6 +67,7 @@ public class AccountManagementService {
         account.setAccountId(Objects.equals(accountId, "") ? account.getAccountId(): accountId);
         account.setProvider(Objects.equals(provider, "") ? account.getProvider(): provider);
         repo.save(account);
+        logger.info(String.format("Account updated, id: %d, accountId: %s, provider: %s", id, account.getAccountId(), account.getProvider()));
         return new ResponseAccountDTO(account);
     }
 }
