@@ -1,14 +1,18 @@
 package com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects;
 
-public class RequestAccountDTO {
+import com.rcbg.afku.investmentdiary.common.datatransferobjects.DefaultDTO;
 
-    private final String provider;
-    private final String accountId;
+public class RequestAccountDTO extends DefaultDTO {
+
+    private String provider;
+    private String accountId;
 
     public RequestAccountDTO(String provider, String accountId){
         this.provider = provider;
         this.accountId = accountId;
     }
+
+    public RequestAccountDTO() {}
 
     public String getProvider() {
         return provider;
@@ -16,5 +20,13 @@ public class RequestAccountDTO {
 
     public String getAccountId() {
         return accountId;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 }

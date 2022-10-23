@@ -1,6 +1,5 @@
 package com.rcbg.afku.investmentdiary.brokeraccounts.services;
 
-import com.rcbg.afku.investmentdiary.brokeraccounts.controllers.AccountController;
 import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.RequestAccountDTO;
 import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.ResponseAccountDTO;
 import com.rcbg.afku.investmentdiary.brokeraccounts.entities.Account;

@@ -1,27 +1,30 @@
 package com.rcbg.afku.investmentdiary.brokeraccounts.controllers;
 
+import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.PaginationAccountDTO;
 import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.RequestAccountDTO;
 import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.ResponseAccountDTO;
-import com.rcbg.afku.investmentdiary.brokeraccounts.entities.Account;
 import com.rcbg.afku.investmentdiary.brokeraccounts.services.AccountBrowseService;
 import com.rcbg.afku.investmentdiary.brokeraccounts.services.AccountManagementService;
+import com.rcbg.afku.investmentdiary.common.responses.MapResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/accounts")
+@RequestMapping("/${api.version}/accounts")
 public class AccountController {
 
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
@@ -35,49 +38,54 @@ public class AccountController {
     }
 
     @PostMapping
-    ResponseEntity<Object> createAccount(@RequestBody RequestAccountDTO requestAccountDto){
+    ResponseEntity<SingleAccountResponse> createAccount(HttpServletRequest request, @RequestBody RequestAccountDTO requestAccountDto){
         ResponseAccountDTO responseAccountDTO = managementService.createAccount(requestAccountDto);
-        return new ResponseEntity<Object>(responseAccountDTO, new HttpHeaders(), 200);
+        SingleAccountResponse response = new SingleAccountResponse(request.getRequestURI(), "account", 200, responseAccountDTO);
+        return new ResponseEntity<SingleAccountResponse>(response, new HttpHeaders(), 200);
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Object> getAccountById(@PathVariable int id){
+    ResponseEntity<SingleAccountResponse> getAccountById(HttpServletRequest request, @PathVariable int id){
         ResponseAccountDTO responseAccountDTO = browseService.findOneAccountById(id);
-        return new ResponseEntity<Object>(responseAccountDTO, new HttpHeaders(), 200);
+        SingleAccountResponse response = new SingleAccountResponse(request.getRequestURI(), "account", 200, responseAccountDTO);
+        return new ResponseEntity<SingleAccountResponse>(response, new HttpHeaders(), 200);
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Object> updateAccountById(@PathVariable int id, @RequestBody RequestAccountDTO requestAccountDTO){
+    ResponseEntity<SingleAccountResponse> updateAccountById(HttpServletRequest request, @PathVariable int id, @RequestBody RequestAccountDTO requestAccountDTO){
         ResponseAccountDTO responseAccountDTO = managementService.updateAccount(id, requestAccountDTO);
-        return new ResponseEntity<Object>(responseAccountDTO, new HttpHeaders(), 200);
+        SingleAccountResponse response = new SingleAccountResponse(request.getRequestURI(), "account", 200, responseAccountDTO);
+        return new ResponseEntity<SingleAccountResponse>(response, new HttpHeaders(), 200);
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<Object> deleteAccountById(@PathVariable int id){
+    ResponseEntity<MapResponse> deleteAccountById(HttpServletRequest request, @PathVariable int id){
         boolean deleted = managementService.deleteAccount(id);
-        HashMap<String, Object> response = new HashMap<>();
-        response.put("id", id);
-        response.put("type", "account");
-        response.put("deleted", deleted);
-        return new ResponseEntity<Object>(response, new HttpHeaders(), 200);
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("id", id);
+        data.put("type", "account");
+        data.put("deleted", deleted);
+        MapResponse response = new MapResponse(request.getRequestURI(), 200, data);
+        return new ResponseEntity<MapResponse>(response, new HttpHeaders(), 200);
     }
 
-    @GetMapping("/search")
-    ResponseEntity<Object> getAccountsByField(@Param("field") String field, @Param("value") String value){
-        List<ResponseAccountDTO> responseAccountDTOS = browseService.findAllByField(field, value);
-        return new ResponseEntity<Object>(responseAccountDTOS, new HttpHeaders(), 200);
-    }
+//    @GetMapping("/search")
+//    ResponseEntity<Object> getAccountsByField(@Param("field") String field, @Param("value") String value){
+//        List<ResponseAccountDTO> responseAccountDTOS = browseService.findAllByField(field, value);
+//        return new ResponseEntity<Object>(responseAccountDTOS, new HttpHeaders(), 200);
+//    }
 
     @GetMapping
-    ResponseEntity<Object> getAllAccounts(){
-        List<ResponseAccountDTO> responseAccountDTOS = browseService.findAllAccounts();
-        return new ResponseEntity<Object>(responseAccountDTOS, new HttpHeaders(), 200);
+    ResponseEntity<ListAccountResponse> getAllAccounts(HttpServletRequest request, Pageable pageable){
+        PaginationAccountDTO paginationDTO = browseService.findAllAccounts(pageable);
+        ListAccountResponse response = new ListAccountResponse(request.getRequestURI(), "Account", 200, paginationDTO);
+        return new ResponseEntity<ListAccountResponse>(response, new HttpHeaders(), 200);
     }
 
-    @GetMapping("/daterange")
-    ResponseEntity<Object> getAccountsFromCreationDateRange(@Param("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-                                                            @Param("stopDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date stopDate){
-        List<ResponseAccountDTO> responseAccountDTOS = browseService.findAllCreatedBetween(startDate, stopDate);
-        return new ResponseEntity<Object>(responseAccountDTOS, new HttpHeaders(), 200);
-    }
+//    @GetMapping("/daterange")
+//    ResponseEntity<Object> getAccountsFromCreationDateRange(@Param("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+//                                                            @Param("stopDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date stopDate){
+//        List<ResponseAccountDTO> responseAccountDTOS = browseService.findAllCreatedBetween(startDate, stopDate);
+//        return new ResponseEntity<Object>(responseAccountDTOS, new HttpHeaders(), 200);
+//    }
 }

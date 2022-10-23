@@ -1,15 +1,11 @@
 package com.rcbg.afku.investmentdiary.brokeraccounts.exceptions;
 
-public class BrokerAccountsBaseRuntimeException extends RuntimeException{
+import com.rcbg.afku.investmentdiary.common.exceptions.BaseInvestmentDiaryRuntimeException;
 
-    private final int code;
+public class BrokerAccountsBaseRuntimeException extends BaseInvestmentDiaryRuntimeException {
 
     public BrokerAccountsBaseRuntimeException(String message, int code){
-        super(message);
-        this.code = code;
+        super(message, code);
     }
 
-    public int getCode(){
-        return this.code;
-    }
 }
