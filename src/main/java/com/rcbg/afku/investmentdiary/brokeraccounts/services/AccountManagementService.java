@@ -28,10 +28,10 @@ public class AccountManagementService {
     public ResponseAccountDTO createAccount(RequestAccountDTO accountDto){
         Account newAccount = new Account();
         if(accountDto.getProvider().isEmpty()){
-            throw new AccountCreationException("'provider' field cannot be empty", 400);
+            throw new AccountCreationException("'provider' field cannot be empty");
         }
         if(accountDto.getAccountId().isEmpty()){
-            throw new AccountCreationException("'accountId' field cannot be empty", 400);
+            throw new AccountCreationException("'accountId' field cannot be empty");
         }
         newAccount.setAccountId(accountDto.getAccountId());
         newAccount.setProvider(accountDto.getProvider());
@@ -39,7 +39,7 @@ public class AccountManagementService {
         int id = newAccount.getId();
         boolean created = repo.existsById(id);
         if(!created){
-            throw new AccountManagementException("Account cannot be created", 500);
+            throw new AccountManagementException("Account cannot be created");
         }
         logger.info(String.format("Created account ID: %d, provider: %s, accountId: %s", id, accountDto.getProvider(), accountDto.getAccountId()));
         return new ResponseAccountDTO(newAccount);
@@ -48,19 +48,19 @@ public class AccountManagementService {
     public boolean deleteAccount(int id){
         boolean exist = repo.existsById(id);
         if(!exist){
-            throw new AccountNotFoundException("Account with ID: " + id + " does not exist", 404);
+            throw new AccountNotFoundException("Account with ID: " + id + " does not exist");
         }
         repo.deleteById(id);
         boolean deleted = !repo.existsById(id);
         if(!deleted){
-            throw new AccountManagementException( "Account with ID: " + id + " cannot be deleted", 500);
+            throw new AccountManagementException( "Account with ID: " + id + " cannot be deleted");
         }
         logger.info(String.format("Account deleted, id: %d", id));
         return true;
     }
 
     public ResponseAccountDTO updateAccount(int id, RequestAccountDTO requestAccountDTO){
-        Account account = repo.findById(id).orElseThrow(() -> new AccountNotFoundException("Account with ID: " + id + " does not exist", 404));
+        Account account = repo.findById(id).orElseThrow(() -> new AccountNotFoundException("Account with ID: " + id + " does not exist"));
         String accountId = requestAccountDTO.getAccountId();
         String provider = requestAccountDTO.getProvider();
         account.setAccountId(Objects.equals(accountId, "") ? account.getAccountId(): accountId);

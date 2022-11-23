@@ -2,11 +2,11 @@ package com.rcbg.afku.investmentdiary.common.datatransferobjects;
 
 import java.util.ArrayList;
 
-public interface IPaginationEntityDTO {
-    public int getPageNumber();
+public interface IPaginationDTO {
+    public int getPage();
     public int getTotalPages();
-    public int getPageSize();
+    public int getSize();
     public long getTotalElements();
     public boolean getIsLast();
-    public ArrayList<DefaultDTO> getData();
+    public <T> ArrayList<T> getData();
 }

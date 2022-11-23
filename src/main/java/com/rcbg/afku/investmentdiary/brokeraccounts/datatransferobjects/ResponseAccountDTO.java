@@ -1,12 +1,11 @@
 package com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects;
 
 import com.rcbg.afku.investmentdiary.brokeraccounts.entities.Account;
-import com.rcbg.afku.investmentdiary.common.datatransferobjects.DefaultDTO;
 
 
 import java.util.Date;
 
-public class ResponseAccountDTO extends DefaultDTO {
+public class ResponseAccountDTO{
 
     private final int id;
     private final Date creationDate;

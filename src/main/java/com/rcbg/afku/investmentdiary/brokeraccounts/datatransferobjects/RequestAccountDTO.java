@@ -1,8 +1,6 @@
 package com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects;
 
-import com.rcbg.afku.investmentdiary.common.datatransferobjects.DefaultDTO;
-
-public class RequestAccountDTO extends DefaultDTO {
+public class RequestAccountDTO{
 
     private String provider;
     private String accountId;

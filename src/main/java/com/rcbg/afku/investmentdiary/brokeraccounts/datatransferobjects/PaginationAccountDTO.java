@@ -1,51 +1,78 @@
 package com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects;
 
-import com.rcbg.afku.investmentdiary.brokeraccounts.entities.Account;
-import com.rcbg.afku.investmentdiary.common.datatransferobjects.DefaultDTO;
-import com.rcbg.afku.investmentdiary.common.datatransferobjects.IPaginationEntityDTO;
+import com.rcbg.afku.investmentdiary.common.datatransferobjects.IPaginationDTO;
 
 import java.util.ArrayList;
 
-public class PaginationAccountDTO extends DefaultDTO implements IPaginationEntityDTO{
+public class PaginationAccountDTO implements IPaginationDTO {
 
-    private final int pageNumber;
-    private final int totalPages;
-    private final int pageSize;
-    private final long totalElements;
-    private final boolean isLast;
-    private final ArrayList<DefaultDTO> data;
+    private int page;
+    private int totalPages;
+    private int size;
+    private long totalElements;
+    private boolean isLast;
+    private ArrayList<ResponseAccountDTO> data;
 
+    public PaginationAccountDTO() {}
 
-    public PaginationAccountDTO(int pageNumber, int totalPages, int pageSize, long totalElements, boolean isLast, ArrayList<DefaultDTO> data){
-        this.pageNumber = pageNumber;
+    public PaginationAccountDTO(int page, int totalPages, int size, long totalElements, boolean isLast, ArrayList<ResponseAccountDTO> data){
+        this.page = page;
         this.totalPages = totalPages;
-        this.pageSize = pageSize;
+        this.size = size;
         this.totalElements = totalElements;
         this.isLast = isLast;
         this.data = data;
     }
 
-    public int getPageNumber() {
-        return pageNumber;
+    @Override
+    public int getPage() {
+        return page;
     }
 
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    @Override
     public int getTotalPages() {
         return totalPages;
     }
 
-    public int getPageSize() {
-        return pageSize;
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
     }
 
+    @Override
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    @Override
     public long getTotalElements() {
         return totalElements;
+    }
+
+    public void setTotalElements(long totalElements) {
+        this.totalElements = totalElements;
     }
 
     public boolean getIsLast() {
         return isLast;
     }
 
-    public ArrayList<DefaultDTO> getData() {
+    public void setIsLast(boolean isLast) {
+        this.isLast = isLast;
+    }
+
+    public ArrayList<ResponseAccountDTO> getData() {
         return data;
+    }
+
+    public void setData(ArrayList<ResponseAccountDTO> data) {
+        this.data = data;
     }
 }
