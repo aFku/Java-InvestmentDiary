@@ -2,25 +2,36 @@ package com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects;
 
 import com.rcbg.afku.investmentdiary.brokeraccounts.entities.Account;
 
-public class ResponseAccountDTO extends EditableAccountDTO{
 
-    private int id;
+import java.util.Date;
 
-    public ResponseAccountDTO(int id, String provider, String accountId) {
-        super(provider, accountId);
-        this.id = id;
-    }
+public class ResponseAccountDTO{
+
+    private final int id;
+    private final Date creationDate;
+    private final String provider;
+    private final String accountId;
 
     public ResponseAccountDTO(Account account){
-        super(account);
         this.id = account.getId();
+        this.creationDate = account.getCreationDate();
+        this.provider = account.getProvider();
+        this.accountId = account.getAccountId();
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public String getAccountId() {
+        return accountId;
     }
 }

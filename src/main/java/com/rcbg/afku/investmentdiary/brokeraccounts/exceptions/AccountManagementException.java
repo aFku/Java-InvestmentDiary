@@ -1,14 +1,8 @@
 package com.rcbg.afku.investmentdiary.brokeraccounts.exceptions;
 
-public class AccountManagementException extends Exception{
+public class AccountManagementException extends BrokerAccountsBaseRuntimeException{
 
-    private final int code;
-    public AccountManagementException(String message, int code){
+    public AccountManagementException(String message){
         super(message);
-        this.code = code;
-    }
-
-    public int getCode(){
-        return this.code;
     }
 }
