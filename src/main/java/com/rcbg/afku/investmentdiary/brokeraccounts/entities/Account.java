@@ -1,7 +1,10 @@
 package com.rcbg.afku.investmentdiary.brokeraccounts.entities;
 
+import com.rcbg.afku.investmentdiary.transactions.entities.Transaction;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 @Entity
@@ -20,6 +23,9 @@ public class Account {
 
     @Column(nullable = false)
     String accountId;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    ArrayList<Transaction> transactions = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -44,4 +50,17 @@ public class Account {
     public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
+
+    public ArrayList<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(ArrayList<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public void addTransaction(Transaction transaction){
+        this.transactions.add(transaction);
+    }
+
 }
