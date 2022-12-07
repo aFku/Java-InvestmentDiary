@@ -35,8 +35,7 @@ public class AccountBrowseService {
     }
 
     public ResponseAccountDTO findOneAccountById(int id){
-        Account account = repo.findById(id).orElseThrow( () -> new AccountNotFoundException("Account with id: " + id + " not found"));
-        return new ResponseAccountDTO(account);
+        return new ResponseAccountDTO(getAccountDomainObjectById(id));
     }
 
     public PaginationAccountDTO findAllAccounts(int page, int size, String sort){
@@ -68,6 +67,10 @@ public class AccountBrowseService {
         return createPaginationResponse(accounts, page);
     }
 
+    public Account getAccountDomainObjectById(int id){
+        return repo.findById(id).orElseThrow( () -> new AccountNotFoundException("Account with id: " + id + " not found"));
+    }
+
     private List<ResponseAccountDTO> convertListOfAccountsToListOfDTOS(List<Account> accounts){
         return accounts.stream().map(ResponseAccountDTO::new).collect( Collectors.toList());
     }
@@ -80,4 +83,6 @@ public class AccountBrowseService {
         return new PaginationAccountDTO(page, accounts.getTotalPages(), accounts.getSize(),
                 accounts.getTotalElements(), accounts.isLast(), data);
     }
+
+
 }

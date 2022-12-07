@@ -1,24 +1,24 @@
 package com.rcbg.afku.investmentdiary.common.statuses;
 
-public class ResourceDeletedStatus {
+public class ResourceDeletedStatus <T> {
 
-    private int id;
+    private T id;
     private boolean deleted;
     private String kind;
 
     public ResourceDeletedStatus() {}
 
-    public ResourceDeletedStatus(int id, boolean deleted, String kind) {
+    public ResourceDeletedStatus(T id, boolean deleted, String kind) {
         this.id = id;
         this.deleted = deleted;
         this.kind = kind;
     }
 
-    public int getId() {
+    public T getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(T id) {
         this.id = id;
     }
 

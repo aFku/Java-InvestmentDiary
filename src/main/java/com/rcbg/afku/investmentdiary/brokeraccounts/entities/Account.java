@@ -1,8 +1,13 @@
 package com.rcbg.afku.investmentdiary.brokeraccounts.entities;
 
+import com.rcbg.afku.investmentdiary.transactions.entities.StockMarketTransaction;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Account {
@@ -20,6 +25,12 @@ public class Account {
 
     @Column(nullable = false)
     String accountId;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    List<StockMarketTransaction> transactions;
+
+    @ManyToMany
+    Set<StockMarketTransaction> currentlyOwnedSubjects;
 
     public int getId() {
         return id;
@@ -43,5 +54,25 @@ public class Account {
 
     public void setAccountId(String accountId) {
         this.accountId = accountId;
+    }
+
+    public List<StockMarketTransaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<StockMarketTransaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public void addTransaction(StockMarketTransaction transaction){
+        this.transactions.add(transaction);
+    }
+
+    public Set<StockMarketTransaction> getCurrentlyOwnedSubjects() {
+        return currentlyOwnedSubjects;
+    }
+
+    public void setCurrentlyOwnedSubjects(Set<StockMarketTransaction> currentlyOwnedSubjects) {
+        this.currentlyOwnedSubjects = currentlyOwnedSubjects;
     }
 }
