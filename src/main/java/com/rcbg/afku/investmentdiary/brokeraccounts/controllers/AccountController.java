@@ -57,7 +57,7 @@ public class AccountController {
     @DeleteMapping(value = "/{id}")
     ResponseEntity<CommonResourceDeletedResponse> deleteAccountById(HttpServletRequest request, @PathVariable int id){
         boolean deleted = managementService.deleteAccount(id);
-        ResourceDeletedStatus status = new ResourceDeletedStatus(id, deleted, "account");
+        ResourceDeletedStatus<Integer> status = new ResourceDeletedStatus<>(id, deleted, "account");
         CommonResourceDeletedResponse response = new CommonResourceDeletedResponse(200, request.getRequestURI(), "object", status);
         return new ResponseEntity<CommonResourceDeletedResponse>(response, new HttpHeaders(), 200);
     }
