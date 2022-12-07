@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,9 +25,6 @@ import java.util.stream.Collectors;
 public class TransactionBrowseService {
 
     private static final Logger logger = LoggerFactory.getLogger(TransactionBrowseService.class);
-
-    @Value("${pagination.max-page-size}")
-    private int maxPageSize;
 
     @Autowired
     private final StockMarketTransactionRepository repo;
@@ -43,16 +41,17 @@ public class TransactionBrowseService {
         return new StockMarketTransactionDTO(getStockMarketTransactionDomainObjectById(id));
     }
 
-    public PaginationStockMarketTransactionDTO findAllTransaction(int page, int size, String sort){
-        Page<StockMarketTransaction> transactions = repo.findAll(PageableManagement.createPageableObject(page, size, this.maxPageSize, sort));
-        return createPaginationResponse(transactions, page);
+    public PaginationStockMarketTransactionDTO findAllTransaction(Pageable pageable){
+        Page<StockMarketTransaction> transactions = repo.findAll(pageable);
+        return createPaginationResponse(transactions);
     }
 
     private List<StockMarketTransactionDTO> convertListOfTransactionsToListOfDTOS(List<StockMarketTransaction> subjects){
         return subjects.stream().map(StockMarketTransactionDTO::new).collect( Collectors.toList());
     }
 
-    private PaginationStockMarketTransactionDTO createPaginationResponse(Page<StockMarketTransaction> transactions, int page){
+    private PaginationStockMarketTransactionDTO createPaginationResponse(Page<StockMarketTransaction> transactions){
+        int page = transactions.getNumber();
         if( page >= transactions.getTotalPages()){
             throw new IllegalArgumentException("There are no page with index " + page + " for this resource. Last index is " + (transactions.getTotalPages() - 1));
         }

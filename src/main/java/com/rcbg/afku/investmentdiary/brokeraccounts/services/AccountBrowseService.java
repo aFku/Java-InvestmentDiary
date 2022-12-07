@@ -26,9 +26,6 @@ public class AccountBrowseService {
 
     private final AccountRepository repo;
 
-    @Value("${pagination.max-page-size}")
-    private int maxPageSize;
-
     @Autowired
     public AccountBrowseService(AccountRepository accountRepository){
         this.repo = accountRepository;
@@ -38,13 +35,12 @@ public class AccountBrowseService {
         return new ResponseAccountDTO(getAccountDomainObjectById(id));
     }
 
-    public PaginationAccountDTO findAllAccounts(int page, int size, String sort){
-        Page<Account> accounts = repo.findAll(PageableManagement.createPageableObject(page, size, this.maxPageSize, sort));
-        return createPaginationResponse(accounts, page);
+    public PaginationAccountDTO findAllAccounts(Pageable pageable){
+        Page<Account> accounts = repo.findAll(pageable);
+        return createPaginationResponse(accounts);
     }
 
-    public PaginationAccountDTO findAllByField(String field, String value, int page, int size, String sort){
-        Pageable pageable = PageableManagement.createPageableObject(page, size, this.maxPageSize, sort);
+    public PaginationAccountDTO findAllByField(String field, String value, Pageable pageable){
         Page<Account> accounts;
         switch (field){
             case "provider":
@@ -64,7 +60,7 @@ public class AccountBrowseService {
             default:
                 throw new AccountSearchException("Invalid field name '" + field + "'");
         }
-        return createPaginationResponse(accounts, page);
+        return createPaginationResponse(accounts);
     }
 
     public Account getAccountDomainObjectById(int id){
@@ -75,7 +71,8 @@ public class AccountBrowseService {
         return accounts.stream().map(ResponseAccountDTO::new).collect( Collectors.toList());
     }
 
-    private PaginationAccountDTO createPaginationResponse(Page<Account> accounts, int page){
+    private PaginationAccountDTO createPaginationResponse(Page<Account> accounts){
+        int page = accounts.getNumber();
         if( page >= accounts.getTotalPages()){
             throw new IllegalArgumentException("There are no page with index " + page + " for this resource. Last index is " + (accounts.getTotalPages() - 1));
         }
@@ -83,6 +80,4 @@ public class AccountBrowseService {
         return new PaginationAccountDTO(page, accounts.getTotalPages(), accounts.getSize(),
                 accounts.getTotalElements(), accounts.isLast(), data);
     }
-
-
 }

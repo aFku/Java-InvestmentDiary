@@ -11,6 +11,7 @@ import com.rcbg.afku.investmentdiary.subjects.services.StockMarketSubjectManagem
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,11 +40,8 @@ public class SubjectController {
     }
 
     @GetMapping
-    ResponseEntity<CommonModelPaginationResponse<StockMarketSubjectDTO>> getAllSubjects(HttpServletRequest request,
-                                     @RequestParam(value = "page", required = false, defaultValue = "${pagination.default-page-index}") int page,
-                                     @RequestParam(value = "size", required = false, defaultValue = "${pagination.default-page-size}") int size,
-                                     @RequestParam(value = "sort", required = false, defaultValue = "id") String sort){
-        PaginationStockMarketSubjectDTO stockMarketSubjectDTO = browseService.getAllStockMarketSubjects(page, size, sort);
+    ResponseEntity<CommonModelPaginationResponse<StockMarketSubjectDTO>> getAllSubjects(HttpServletRequest request, Pageable pageable){
+        PaginationStockMarketSubjectDTO stockMarketSubjectDTO = browseService.getAllStockMarketSubjects(pageable);
         CommonModelPaginationResponse<StockMarketSubjectDTO> response = new CommonModelPaginationResponse<>(200, request.getRequestURI(), "list", stockMarketSubjectDTO);
         return new ResponseEntity<>(response, new HttpHeaders(), 200);
     }
