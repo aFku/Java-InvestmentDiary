@@ -1,10 +1,9 @@
 package com.rcbg.afku.investmentdiary.subjects.controllers;
-import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.ResponseAccountDTO;
+import com.rcbg.afku.investmentdiary.common.datatransferobjects.CommonPaginationDTO;
 import com.rcbg.afku.investmentdiary.common.responses.CommonModelPaginationResponse;
 import com.rcbg.afku.investmentdiary.common.responses.CommonResourceDeletedResponse;
 import com.rcbg.afku.investmentdiary.common.responses.CommonSingleModelResponse;
 import com.rcbg.afku.investmentdiary.common.statuses.ResourceDeletedStatus;
-import com.rcbg.afku.investmentdiary.subjects.datatransferobjects.PaginationStockMarketSubjectDTO;
 import com.rcbg.afku.investmentdiary.subjects.datatransferobjects.StockMarketSubjectDTO;
 import com.rcbg.afku.investmentdiary.subjects.services.StockMarketSubjectBrowseService;
 import com.rcbg.afku.investmentdiary.subjects.services.StockMarketSubjectManagementService;
@@ -41,7 +40,7 @@ public class SubjectController {
 
     @GetMapping
     ResponseEntity<CommonModelPaginationResponse<StockMarketSubjectDTO>> getAllSubjects(HttpServletRequest request, Pageable pageable){
-        PaginationStockMarketSubjectDTO stockMarketSubjectDTO = browseService.getAllStockMarketSubjects(pageable);
+        CommonPaginationDTO<StockMarketSubjectDTO> stockMarketSubjectDTO = browseService.getAllStockMarketSubjects(pageable);
         CommonModelPaginationResponse<StockMarketSubjectDTO> response = new CommonModelPaginationResponse<>(200, request.getRequestURI(), "list", stockMarketSubjectDTO);
         return new ResponseEntity<>(response, new HttpHeaders(), 200);
     }

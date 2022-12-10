@@ -1,19 +1,17 @@
-package com.rcbg.afku.investmentdiary.transactions.services;
+package com.rcbg.afku.investmentdiary.brokeraccounts.transactions.services;
 
 import com.rcbg.afku.investmentdiary.brokeraccounts.entities.Account;
 import com.rcbg.afku.investmentdiary.brokeraccounts.services.AccountBrowseService;
 import com.rcbg.afku.investmentdiary.subjects.entities.StockMarketSubject;
 import com.rcbg.afku.investmentdiary.subjects.services.StockMarketSubjectBrowseService;
-import com.rcbg.afku.investmentdiary.transactions.datatransferobjects.StockMarketTransactionDTO;
-import com.rcbg.afku.investmentdiary.transactions.entities.OperationType;
-import com.rcbg.afku.investmentdiary.transactions.entities.StockMarketTransaction;
-import com.rcbg.afku.investmentdiary.transactions.repositories.StockMarketTransactionRepository;
+import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.datatransferobjects.StockMarketTransactionDTO;
+import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.entities.OperationType;
+import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.entities.StockMarketTransaction;
+import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.repositories.StockMarketTransactionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 @Service
 public class TransactionManagementService {

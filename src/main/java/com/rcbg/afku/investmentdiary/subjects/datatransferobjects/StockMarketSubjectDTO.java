@@ -16,8 +16,6 @@ public class StockMarketSubjectDTO {
 
     boolean hasDividend;
 
-    public StockMarketSubjectDTO(StockMarketSubjectDTO stockMarketSubjectDTO) {}
-
     public int getId() {
         return id;
     }

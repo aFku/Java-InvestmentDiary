@@ -1,10 +1,11 @@
 package com.rcbg.afku.investmentdiary.brokeraccounts.entities;
 
-import com.rcbg.afku.investmentdiary.transactions.entities.StockMarketTransaction;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.rcbg.afku.investmentdiary.subjects.entities.StockMarketSubject;
+import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.entities.StockMarketTransaction;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
@@ -27,10 +28,12 @@ public class Account {
     String accountId;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonBackReference
     List<StockMarketTransaction> transactions;
 
     @ManyToMany
-    Set<StockMarketTransaction> currentlyOwnedSubjects;
+    @JsonBackReference
+    Set<StockMarketSubject> currentlyOwnedSubjects;
 
     public int getId() {
         return id;
@@ -68,11 +71,11 @@ public class Account {
         this.transactions.add(transaction);
     }
 
-    public Set<StockMarketTransaction> getCurrentlyOwnedSubjects() {
+    public Set<StockMarketSubject> getCurrentlyOwnedSubjects() {
         return currentlyOwnedSubjects;
     }
 
-    public void setCurrentlyOwnedSubjects(Set<StockMarketTransaction> currentlyOwnedSubjects) {
+    public void setCurrentlyOwnedSubjects(Set<StockMarketSubject> currentlyOwnedSubjects) {
         this.currentlyOwnedSubjects = currentlyOwnedSubjects;
     }
 }

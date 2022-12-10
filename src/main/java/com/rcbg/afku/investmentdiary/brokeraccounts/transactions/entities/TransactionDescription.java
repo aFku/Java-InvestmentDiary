@@ -1,4 +1,4 @@
-package com.rcbg.afku.investmentdiary.transactions.entities;
+package com.rcbg.afku.investmentdiary.brokeraccounts.transactions.entities;
 
 import javax.persistence.Embeddable;
 

@@ -1,10 +1,10 @@
 package com.rcbg.afku.investmentdiary.subjects.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.rcbg.afku.investmentdiary.brokeraccounts.entities.Account;
-import com.rcbg.afku.investmentdiary.transactions.entities.StockMarketTransaction;
+import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.entities.StockMarketTransaction;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -23,9 +23,11 @@ public class StockMarketSubject{
     boolean hasDividend;
 
     @OneToMany(mappedBy = "subject")
+    @JsonBackReference
     List<StockMarketTransaction> transactions;
 
     @ManyToMany
+    @JsonBackReference
     Set<Account> holdingAccounts;
 
     public int getId() {

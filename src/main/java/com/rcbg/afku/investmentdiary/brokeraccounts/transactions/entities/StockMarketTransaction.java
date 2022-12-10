@@ -1,5 +1,6 @@
-package com.rcbg.afku.investmentdiary.transactions.entities;
+package com.rcbg.afku.investmentdiary.brokeraccounts.transactions.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rcbg.afku.investmentdiary.brokeraccounts.entities.Account;
 import com.rcbg.afku.investmentdiary.subjects.entities.StockMarketSubject;
 
@@ -35,9 +36,11 @@ public class StockMarketTransaction{
     TransactionDescription description;
 
     @ManyToOne
+    @JsonManagedReference
     StockMarketSubject subject;
 
     @ManyToOne
+    @JsonManagedReference
     Account account;
 
     public Long getId() {

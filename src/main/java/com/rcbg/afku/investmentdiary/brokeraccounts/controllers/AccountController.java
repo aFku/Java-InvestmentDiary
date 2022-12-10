@@ -1,10 +1,10 @@
 package com.rcbg.afku.investmentdiary.brokeraccounts.controllers;
 
-import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.PaginationAccountDTO;
 import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.RequestAccountDTO;
 import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.ResponseAccountDTO;
 import com.rcbg.afku.investmentdiary.brokeraccounts.services.AccountBrowseService;
 import com.rcbg.afku.investmentdiary.brokeraccounts.services.AccountManagementService;
+import com.rcbg.afku.investmentdiary.common.datatransferobjects.CommonPaginationDTO;
 import com.rcbg.afku.investmentdiary.common.responses.CommonModelPaginationResponse;
 import com.rcbg.afku.investmentdiary.common.responses.CommonResourceDeletedResponse;
 import com.rcbg.afku.investmentdiary.common.responses.CommonSingleModelResponse;
@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,18 +62,18 @@ public class AccountController {
         return new ResponseEntity<CommonResourceDeletedResponse>(response, new HttpHeaders(), 200);
     }
 
-    @GetMapping("/search")
-    ResponseEntity<CommonModelPaginationResponse<ResponseAccountDTO>> getAccountsByField(HttpServletRequest request,
-                                     @RequestParam(value = "field", required = true) String field,
-                                     @RequestParam(value = "value", required = true) String value,
-                                     Pageable pageable){
-        PaginationAccountDTO paginationDTO = browseService.findAllByField(field, value, pageable);
-        CommonModelPaginationResponse<ResponseAccountDTO> response = new CommonModelPaginationResponse<ResponseAccountDTO>(200, request.getRequestURI(), "list", paginationDTO);
-        return new ResponseEntity<CommonModelPaginationResponse<ResponseAccountDTO>>(response, new HttpHeaders(), 200);
-    }
+//    @GetMapping("/search")
+//    ResponseEntity<CommonModelPaginationResponse<ResponseAccountDTO>> getAccountsByField(HttpServletRequest request,
+//                                     @RequestParam(value = "field", required = true) String field,
+//                                     @RequestParam(value = "value", required = true) String value,
+//                                     Pageable pageable){
+//        PaginationAccountDTO paginationDTO = browseService.findAllByField(field, value, pageable);
+//        CommonModelPaginationResponse<ResponseAccountDTO> response = new CommonModelPaginationResponse<ResponseAccountDTO>(200, request.getRequestURI(), "list", paginationDTO);
+//        return new ResponseEntity<CommonModelPaginationResponse<ResponseAccountDTO>>(response, new HttpHeaders(), 200);
+//    }
     @GetMapping
     ResponseEntity<CommonModelPaginationResponse<ResponseAccountDTO>> getAllAccounts(HttpServletRequest request, Pageable pageable){
-        PaginationAccountDTO paginationDTO = browseService.findAllAccounts(pageable);
+        CommonPaginationDTO<ResponseAccountDTO> paginationDTO = browseService.findAllAccounts(pageable);
         CommonModelPaginationResponse<ResponseAccountDTO> response = new CommonModelPaginationResponse<ResponseAccountDTO>(200, request.getRequestURI(), "list", paginationDTO);
         return new ResponseEntity<CommonModelPaginationResponse<ResponseAccountDTO>>(response, new HttpHeaders(), 200);
     }
