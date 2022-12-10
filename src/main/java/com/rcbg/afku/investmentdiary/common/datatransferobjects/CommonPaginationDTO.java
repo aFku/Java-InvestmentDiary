@@ -1,30 +1,30 @@
-package com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects;
+package com.rcbg.afku.investmentdiary.common.datatransferobjects;
 
-import com.rcbg.afku.investmentdiary.common.datatransferobjects.IPaginationDTO;
+import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.ResponseAccountDTO;
 
 import java.util.ArrayList;
 
-public class PaginationAccountDTO implements IPaginationDTO {
+public class CommonPaginationDTO <T> {
 
     private int page;
     private int totalPages;
     private int size;
     private long totalElements;
-    private boolean isLast;
-    private ArrayList<ResponseAccountDTO> data;
 
-    public PaginationAccountDTO() {}
+    private boolean hasNext;
+    private ArrayList<T> data;
 
-    public PaginationAccountDTO(int page, int totalPages, int size, long totalElements, boolean isLast, ArrayList<ResponseAccountDTO> data){
+    public CommonPaginationDTO() {}
+
+    public CommonPaginationDTO(int page, int totalPages, int size, long totalElements, boolean hasNext, ArrayList<T> data){
         this.page = page;
         this.totalPages = totalPages;
         this.size = size;
         this.totalElements = totalElements;
-        this.isLast = isLast;
+        this.hasNext = hasNext;
         this.data = data;
     }
 
-    @Override
     public int getPage() {
         return page;
     }
@@ -33,7 +33,6 @@ public class PaginationAccountDTO implements IPaginationDTO {
         this.page = page;
     }
 
-    @Override
     public int getTotalPages() {
         return totalPages;
     }
@@ -42,7 +41,6 @@ public class PaginationAccountDTO implements IPaginationDTO {
         this.totalPages = totalPages;
     }
 
-    @Override
     public int getSize() {
         return size;
     }
@@ -51,7 +49,6 @@ public class PaginationAccountDTO implements IPaginationDTO {
         this.size = size;
     }
 
-    @Override
     public long getTotalElements() {
         return totalElements;
     }
@@ -60,19 +57,19 @@ public class PaginationAccountDTO implements IPaginationDTO {
         this.totalElements = totalElements;
     }
 
-    public boolean getIsLast() {
-        return isLast;
+    public boolean hasNext() {
+        return hasNext;
     }
 
-    public void setIsLast(boolean isLast) {
-        this.isLast = isLast;
+    public void setHasNext(boolean hasNext) {
+        this.hasNext = hasNext;
     }
 
-    public ArrayList<ResponseAccountDTO> getData() {
+    public ArrayList<T> getData() {
         return data;
     }
 
-    public void setData(ArrayList<ResponseAccountDTO> data) {
+    public void setData(ArrayList<T> data) {
         this.data = data;
     }
 }

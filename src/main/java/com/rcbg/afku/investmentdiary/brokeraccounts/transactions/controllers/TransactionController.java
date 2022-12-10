@@ -1,14 +1,15 @@
-package com.rcbg.afku.investmentdiary.transactions.controllers;
+package com.rcbg.afku.investmentdiary.brokeraccounts.transactions.controllers;
 
+import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.datatransferobjects.StockMarketTransactionDTO;
+import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.services.TransactionManagementService;
+import com.rcbg.afku.investmentdiary.common.datatransferobjects.CommonPaginationDTO;
 import com.rcbg.afku.investmentdiary.common.responses.CommonModelPaginationResponse;
 import com.rcbg.afku.investmentdiary.common.responses.CommonResourceDeletedResponse;
 import com.rcbg.afku.investmentdiary.common.responses.CommonSingleModelResponse;
 import com.rcbg.afku.investmentdiary.common.statuses.ResourceDeletedStatus;
-import com.rcbg.afku.investmentdiary.transactions.datatransferobjects.PaginationStockMarketTransactionDTO;
-import com.rcbg.afku.investmentdiary.transactions.datatransferobjects.StockMarketTransactionDTO;
-import com.rcbg.afku.investmentdiary.transactions.services.TransactionBrowseService;
-import com.rcbg.afku.investmentdiary.transactions.services.TransactionManagementService;
+import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.services.TransactionBrowseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,12 +37,9 @@ public class TransactionController {
     }
 
     @GetMapping
-    ResponseEntity<CommonModelPaginationResponse<PaginationStockMarketTransactionDTO>> getAllTransactions(HttpServletRequest request,
-                                          @RequestParam(value = "page", required = false, defaultValue = "${pagination.default-page-index}") int page,
-                                          @RequestParam(value = "size", required = false, defaultValue = "${pagination.default-page-size}") int size,
-                                          @RequestParam(value = "sort", required = false, defaultValue = "id") String sort){
-        PaginationStockMarketTransactionDTO paginationDto = browseService.findAllTransaction(page, size, sort);
-        CommonModelPaginationResponse<PaginationStockMarketTransactionDTO> response = new CommonModelPaginationResponse<>(200, request.getRequestURI(), "list", paginationDto);
+    ResponseEntity<CommonModelPaginationResponse<StockMarketTransactionDTO>> getAllTransactions(HttpServletRequest request, Pageable pageable){
+        CommonPaginationDTO<StockMarketTransactionDTO> paginationDto = browseService.findAllTransaction(pageable);
+        CommonModelPaginationResponse<StockMarketTransactionDTO> response = new CommonModelPaginationResponse<>(200, request.getRequestURI(), "list", paginationDto);
         return new ResponseEntity<>(response, new HttpHeaders(), 200);
     }
 

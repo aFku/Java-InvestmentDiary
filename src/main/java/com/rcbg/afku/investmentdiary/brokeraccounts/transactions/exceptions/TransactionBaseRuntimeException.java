@@ -1,4 +1,4 @@
-package com.rcbg.afku.investmentdiary.transactions.exceptions;
+package com.rcbg.afku.investmentdiary.brokeraccounts.transactions.exceptions;
 
 import com.rcbg.afku.investmentdiary.common.exceptions.InvestmentDiaryBaseException;
 

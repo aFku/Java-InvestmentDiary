@@ -2,6 +2,7 @@ package com.rcbg.afku.investmentdiary.common.controllers;
 
 import com.rcbg.afku.investmentdiary.brokeraccounts.controllers.BrokerAccountControllerAdvisor;
 import com.rcbg.afku.investmentdiary.brokeraccounts.exceptions.BrokerAccountsBaseRuntimeException;
+import com.rcbg.afku.investmentdiary.common.exceptions.PaginationPageNotFoundException;
 import com.rcbg.afku.investmentdiary.common.responses.BaseApiErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +24,15 @@ public class GeneralControlAdvice extends BaseControlAdvice {
 
     @ExceptionHandler({IllegalArgumentException.class, PropertyReferenceException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<BaseApiErrorResponse> handleAccountBadRequest(RuntimeException ex, HttpServletRequest request){
+    public ResponseEntity<BaseApiErrorResponse> handleBadRequest(RuntimeException ex, HttpServletRequest request){
         BaseApiErrorResponse response = processErrorToResponse(logger, ex, request, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<BaseApiErrorResponse>(response, new HttpHeaders(), 400);
+    }
+
+    @ExceptionHandler({PaginationPageNotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<BaseApiErrorResponse> handleNotFound(RuntimeException ex, HttpServletRequest request){
+        BaseApiErrorResponse response = processErrorToResponse(logger, ex, request, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<BaseApiErrorResponse>(response, new HttpHeaders(), 404);
     }
 }

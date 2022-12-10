@@ -1,7 +1,7 @@
-package com.rcbg.afku.investmentdiary.transactions.datatransferobjects;
+package com.rcbg.afku.investmentdiary.brokeraccounts.transactions.datatransferobjects;
 
-import com.rcbg.afku.investmentdiary.transactions.entities.StockMarketTransaction;
-import com.rcbg.afku.investmentdiary.transactions.entities.TransactionDescription;
+import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.entities.StockMarketTransaction;
+import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.entities.TransactionDescription;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
