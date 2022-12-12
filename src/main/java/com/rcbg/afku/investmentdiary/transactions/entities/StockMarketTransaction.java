@@ -1,4 +1,4 @@
-package com.rcbg.afku.investmentdiary.brokeraccounts.transactions.entities;
+package com.rcbg.afku.investmentdiary.transactions.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rcbg.afku.investmentdiary.brokeraccounts.entities.Account;
@@ -39,7 +39,7 @@ public class StockMarketTransaction{
     @JsonManagedReference
     StockMarketSubject subject;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonManagedReference
     Account account;
 

@@ -1,8 +1,10 @@
-package com.rcbg.afku.investmentdiary.brokeraccounts.transactions.services;
+package com.rcbg.afku.investmentdiary.transactions.services;
 
-import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.datatransferobjects.StockMarketTransactionDTO;
-import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.entities.StockMarketTransaction;
-import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.repositories.StockMarketTransactionRepository;
+import com.rcbg.afku.investmentdiary.subjects.datatransferobjects.StockMarketSubjectMapper;
+import com.rcbg.afku.investmentdiary.transactions.datatransferobjects.StockMarketTransactionDTO;
+import com.rcbg.afku.investmentdiary.transactions.datatransferobjects.StockMarketTransactionMapper;
+import com.rcbg.afku.investmentdiary.transactions.entities.StockMarketTransaction;
+import com.rcbg.afku.investmentdiary.transactions.repositories.StockMarketTransactionRepository;
 import com.rcbg.afku.investmentdiary.common.datatransferobjects.CommonPaginationDTO;
 import com.rcbg.afku.investmentdiary.common.utils.PageableManagement;
 import com.rcbg.afku.investmentdiary.subjects.exceptions.StockMarketSubjectNotFound;
@@ -31,7 +33,8 @@ public class TransactionBrowseService {
     }
 
     public StockMarketTransactionDTO findOneTransactionById(long id){
-        return new StockMarketTransactionDTO(getStockMarketTransactionDomainObjectById(id));
+        return StockMarketTransactionMapper.INSTANCE.stockMarketTransactionToStockMarketTransactionDTO(getStockMarketTransactionDomainObjectById(id));
+        //return new StockMarketTransactionDTO(getStockMarketTransactionDomainObjectById(id));
     }
 
     public CommonPaginationDTO<StockMarketTransactionDTO> findAllTransaction(Pageable pageable){

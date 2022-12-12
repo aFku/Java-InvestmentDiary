@@ -20,6 +20,10 @@ public class StockMarketSubjectDTO {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -45,11 +49,4 @@ public class StockMarketSubjectDTO {
     }
 
     public StockMarketSubjectDTO(){}
-
-    public StockMarketSubjectDTO(StockMarketSubject subject){
-        this.id = subject.getId();
-        this.name = subject.getName();
-        this.infoSources = subject.getInfoSources();
-        this.hasDividend = subject.hasDividend();
-    }
 }

@@ -1,7 +1,7 @@
 package com.rcbg.afku.investmentdiary.brokeraccounts.services;
 
-import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.RequestAccountDTO;
-import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.ResponseAccountDTO;
+import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.BrokerAccountDTO;
+import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.BrokerAccountMapper;
 import com.rcbg.afku.investmentdiary.brokeraccounts.entities.Account;
 import com.rcbg.afku.investmentdiary.brokeraccounts.exceptions.AccountCreationException;
 import com.rcbg.afku.investmentdiary.brokeraccounts.exceptions.AccountManagementException;
@@ -25,7 +25,7 @@ public class AccountManagementService {
         this.repo = accountRepository;
     }
 
-    public ResponseAccountDTO createAccount(RequestAccountDTO accountDto){
+    public BrokerAccountDTO createAccount(BrokerAccountDTO accountDto){
         Account newAccount = new Account();
         if(accountDto.getProvider().isEmpty()){
             throw new AccountCreationException("'provider' field cannot be empty");
@@ -42,7 +42,7 @@ public class AccountManagementService {
             throw new AccountManagementException("Account cannot be created");
         }
         logger.info(String.format("Created account ID: %d, provider: %s, accountId: %s", id, accountDto.getProvider(), accountDto.getAccountId()));
-        return new ResponseAccountDTO(newAccount);
+        return BrokerAccountMapper.INSTANCE.accountToBrokerAccountDTO(newAccount);
     }
 
     public boolean deleteAccount(int id){
@@ -59,7 +59,7 @@ public class AccountManagementService {
         return true;
     }
 
-    public ResponseAccountDTO updateAccount(int id, RequestAccountDTO requestAccountDTO){
+    public BrokerAccountDTO updateAccount(int id, BrokerAccountDTO requestAccountDTO){
         Account account = repo.findById(id).orElseThrow(() -> new AccountNotFoundException("Account with ID: " + id + " does not exist"));
         String accountId = requestAccountDTO.getAccountId();
         String provider = requestAccountDTO.getProvider();
@@ -67,6 +67,6 @@ public class AccountManagementService {
         account.setProvider(Objects.equals(provider, "") ? account.getProvider(): provider);
         repo.save(account);
         logger.info(String.format("Account updated, id: %d, accountId: %s, provider: %s", id, account.getAccountId(), account.getProvider()));
-        return new ResponseAccountDTO(account);
+        return BrokerAccountMapper.INSTANCE.accountToBrokerAccountDTO(account);
     }
 }

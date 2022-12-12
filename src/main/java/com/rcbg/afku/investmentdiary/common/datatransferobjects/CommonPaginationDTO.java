@@ -1,7 +1,5 @@
 package com.rcbg.afku.investmentdiary.common.datatransferobjects;
 
-import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.ResponseAccountDTO;
-
 import java.util.ArrayList;
 
 public class CommonPaginationDTO <T> {
