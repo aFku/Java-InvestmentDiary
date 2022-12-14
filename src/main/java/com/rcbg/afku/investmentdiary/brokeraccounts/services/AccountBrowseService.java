@@ -26,8 +26,8 @@ public class AccountBrowseService {
         return BrokerAccountMapper.INSTANCE.toDTO(getAccountDomainObjectById(id));
     }
 
-    public CommonPaginationDTO<BrokerAccountDTO> findAllAccounts(Pageable pageable){
-        Page<Account> accounts = repo.findAll(pageable);
+    public CommonPaginationDTO findAllAccounts(Pageable pageable){
+        Page<BrokerAccountDTO> accounts = repo.findAll(pageable).map(BrokerAccountMapper.INSTANCE::toDTO);
         return PageableManagement.createPaginationDTO(accounts);
     }
 

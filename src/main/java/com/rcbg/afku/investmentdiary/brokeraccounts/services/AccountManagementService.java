@@ -33,8 +33,6 @@ public class AccountManagementService {
         if(accountDto.getAccountId().isEmpty()){
             throw new AccountCreationException("'accountId' field cannot be empty");
         }
-        //newAccount.setAccountId(accountDto.getAccountId());
-        //newAccount.setProvider(accountDto.getProvider());
         repo.save(newAccount);
         int id = newAccount.getId();
         boolean created = repo.existsById(id);

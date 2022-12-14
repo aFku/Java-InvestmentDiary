@@ -50,7 +50,7 @@ public class StockMarketSubject{
         this.infoSources = infoSources;
     }
 
-    public boolean hasDividend() {
+    public boolean isHasDividend() {
         return hasDividend;
     }
 

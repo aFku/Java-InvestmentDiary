@@ -36,8 +36,8 @@ public class TransactionBrowseService {
         return StockMarketTransactionMapper.INSTANCE.toDTO(getStockMarketTransactionDomainObjectById(id));
     }
 
-    public CommonPaginationDTO<StockMarketTransactionDTO> findAllTransaction(Pageable pageable){
-        Page<StockMarketTransaction> transactions = repo.findAll(pageable);
+    public CommonPaginationDTO findAllTransaction(Pageable pageable){
+        Page<StockMarketTransactionDTO> transactions = repo.findAll(pageable).map(StockMarketTransactionMapper.INSTANCE::toDTO);
         return PageableManagement.createPaginationDTO(transactions);
     }
 }

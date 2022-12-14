@@ -24,9 +24,6 @@ public class StockMarketSubjectManagementService {
 
     public StockMarketSubjectDTO createStockMarketSubject(StockMarketSubjectDTO dto){
         StockMarketSubject subject = StockMarketSubjectMapper.INSTANCE.toEntity(dto);
-//        subject.setName(dto.getName());
-//        subject.setInfoSources(dto.getInfoSources());
-//        subject.setHasDividend(dto.isHasDividend());
         repo.save(subject);
         return StockMarketSubjectMapper.INSTANCE.toDTO(subject);
     }
@@ -34,7 +31,7 @@ public class StockMarketSubjectManagementService {
     public StockMarketSubjectDTO updateStockMarketSubjectById(int id, StockMarketSubjectDTO dto){
         StockMarketSubject subject = browseService.getStockMarketSubjectDomainObjectById(id);
         subject.setName(Objects.equals(dto.getName(), "") ? subject.getName(): dto.getName());
-        subject.setHasDividend(Objects.equals(dto.isHasDividend(), null) ? subject.hasDividend(): dto.isHasDividend());
+        subject.setHasDividend(Objects.equals(dto.isHasDividend(), null) ? subject.isHasDividend(): dto.isHasDividend());
         subject.setInfoSources(Objects.equals(dto.getInfoSources(), "") ? subject.getInfoSources(): dto.getInfoSources());
         repo.save(subject);
         return StockMarketSubjectMapper.INSTANCE.toDTO(subject);

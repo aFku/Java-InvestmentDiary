@@ -29,11 +29,10 @@ public class StockMarketSubjectBrowseService {
     public StockMarketSubjectDTO getStockMarketSubjectById(int id){
         StockMarketSubject subject = getStockMarketSubjectDomainObjectById(id);
         return StockMarketSubjectMapper.INSTANCE.toDTO(subject);
-        //return new StockMarketSubjectDTO(getStockMarketSubjectDomainObjectById(id));
     }
 
-    public CommonPaginationDTO<StockMarketSubjectDTO> getAllStockMarketSubjects(Pageable pageable){
-        Page<StockMarketSubject> subjects = repo.findAll(pageable);
+    public CommonPaginationDTO getAllStockMarketSubjects(Pageable pageable){
+        Page<StockMarketSubjectDTO> subjects = repo.findAll(pageable).map(StockMarketSubjectMapper.INSTANCE::toDTO);
         return PageableManagement.createPaginationDTO(subjects);
     }
 }

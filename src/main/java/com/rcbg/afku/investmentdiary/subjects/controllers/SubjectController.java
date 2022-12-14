@@ -35,13 +35,13 @@ public class SubjectController {
     ResponseEntity<CommonSingleModelResponse<StockMarketSubjectDTO>> createSubject(HttpServletRequest request, @RequestBody StockMarketSubjectDTO requestDto){
         StockMarketSubjectDTO stockMarketSubjectDTO = managementService.createStockMarketSubject(requestDto);
         CommonSingleModelResponse<StockMarketSubjectDTO> response = new CommonSingleModelResponse<StockMarketSubjectDTO>(200, request.getRequestURI(), "object",  stockMarketSubjectDTO);
-        return new ResponseEntity<CommonSingleModelResponse<StockMarketSubjectDTO>>(response, new HttpHeaders(), 200);
+        return new ResponseEntity<>(response, new HttpHeaders(), 200);
     }
 
     @GetMapping
-    ResponseEntity<CommonModelPaginationResponse<StockMarketSubjectDTO>> getAllSubjects(HttpServletRequest request, Pageable pageable){
-        CommonPaginationDTO<StockMarketSubjectDTO> stockMarketSubjectDTO = browseService.getAllStockMarketSubjects(pageable);
-        CommonModelPaginationResponse<StockMarketSubjectDTO> response = new CommonModelPaginationResponse<>(200, request.getRequestURI(), "list", stockMarketSubjectDTO);
+    ResponseEntity<CommonModelPaginationResponse> getAllSubjects(HttpServletRequest request, Pageable pageable){
+        CommonPaginationDTO stockMarketSubjectDTO = browseService.getAllStockMarketSubjects(pageable);
+        CommonModelPaginationResponse response = new CommonModelPaginationResponse(200, request.getRequestURI(), "list", stockMarketSubjectDTO);
         return new ResponseEntity<>(response, new HttpHeaders(), 200);
     }
 
@@ -56,7 +56,7 @@ public class SubjectController {
     ResponseEntity<CommonSingleModelResponse<StockMarketSubjectDTO>> updateSubjectById(HttpServletRequest request, @PathVariable int id, @RequestBody StockMarketSubjectDTO requestDto){
         StockMarketSubjectDTO responseDto = managementService.updateStockMarketSubjectById(id, requestDto);
         CommonSingleModelResponse<StockMarketSubjectDTO> response = new CommonSingleModelResponse<>(200, request.getRequestURI(), "object", responseDto);
-        return new ResponseEntity<CommonSingleModelResponse<StockMarketSubjectDTO>>(response, new HttpHeaders(), 200);
+        return new ResponseEntity<>(response, new HttpHeaders(), 200);
     }
 
     @DeleteMapping("/{id}")
