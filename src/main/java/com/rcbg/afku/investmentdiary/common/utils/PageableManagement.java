@@ -14,7 +14,7 @@ public class PageableManagement {
         CommonPaginationDTO dto = new CommonPaginationDTO();
         validateIfPageOutOfRange(page);
         dto.setPage(page.getNumber());
-        dto.setHasNext(page.hasNext());
+        dto.setHasNext(page.isLast());
         dto.setSize(page.getSize());
         dto.setTotalPages(page.getTotalPages());
         dto.setTotalElements(page.getTotalElements());
