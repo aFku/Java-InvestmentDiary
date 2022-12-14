@@ -59,10 +59,7 @@ public class AccountManagementService {
 
     public BrokerAccountDTO updateAccount(int id, BrokerAccountDTO requestAccountDTO){
         Account account = repo.findById(id).orElseThrow(() -> new AccountNotFoundException("Account with ID: " + id + " does not exist"));
-        String accountId = requestAccountDTO.getAccountId();
-        String provider = requestAccountDTO.getProvider();
-        account.setAccountId(Objects.equals(accountId, "") ? account.getAccountId(): accountId);
-        account.setProvider(Objects.equals(provider, "") ? account.getProvider(): provider);
+        account = BrokerAccountMapper.INSTANCE.updateEntity(requestAccountDTO, account);
         repo.save(account);
         logger.info(String.format("Account updated, id: %d, accountId: %s, provider: %s", id, account.getAccountId(), account.getProvider()));
         return BrokerAccountMapper.INSTANCE.toDTO(account);

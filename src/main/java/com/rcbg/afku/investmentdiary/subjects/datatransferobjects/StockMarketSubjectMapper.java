@@ -1,10 +1,7 @@
 package com.rcbg.afku.investmentdiary.subjects.datatransferobjects;
 
 import com.rcbg.afku.investmentdiary.subjects.entities.StockMarketSubject;
-import org.mapstruct.InheritInverseConfiguration;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
@@ -17,5 +14,10 @@ public interface StockMarketSubjectMapper {
 
     @InheritInverseConfiguration
     StockMarketSubject toEntity(StockMarketSubjectDTO dto);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "transactions", ignore = true)
+    @Mapping(target = "holdingAccounts", ignore = true)
+    StockMarketSubject updateEntity(StockMarketSubjectDTO dto, @MappingTarget StockMarketSubject subject);
 
 }
