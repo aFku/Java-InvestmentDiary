@@ -12,8 +12,8 @@ public interface StockMarketSubjectMapper {
     StockMarketSubjectMapper INSTANCE = Mappers.getMapper(StockMarketSubjectMapper.class);
 
     @Mapping(source = "id", target = "id")
-    StockMarketSubjectDTO stockMarketSubjectToStockMarketSubjectDTO(StockMarketSubject subject);
+    StockMarketSubjectDTO toDTO(StockMarketSubject subject);
 
     @InheritInverseConfiguration
-    StockMarketSubject stockMarketSubjectDTOToStockMarketSubject(StockMarketSubjectDTO dto);
+    StockMarketSubject toEntity(StockMarketSubjectDTO dto);
 }

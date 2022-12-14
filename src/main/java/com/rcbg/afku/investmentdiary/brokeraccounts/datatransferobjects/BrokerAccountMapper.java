@@ -11,8 +11,8 @@ public interface BrokerAccountMapper {
 
     BrokerAccountMapper INSTANCE = Mappers.getMapper(BrokerAccountMapper.class);
 
-    BrokerAccountDTO accountToBrokerAccountDTO(Account account);
+    BrokerAccountDTO toDTO(Account account);
 
     @InheritInverseConfiguration
-    Account brokerAccountDTOToAccount(BrokerAccountDTO dto);
+    Account toEntity(BrokerAccountDTO dto);
 }

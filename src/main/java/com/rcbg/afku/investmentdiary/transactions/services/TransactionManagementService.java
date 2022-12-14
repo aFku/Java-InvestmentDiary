@@ -22,31 +22,20 @@ public class TransactionManagementService {
     private final StockMarketTransactionRepository repo;
     private final AccountBrowseService accountBrowseService;
     private final StockMarketSubjectBrowseService stockMarketSubjectBrowseService;
-    private final TransactionBrowseService browseService;
-
 
     @Autowired
-    public TransactionManagementService(StockMarketTransactionRepository transactionRepository, AccountBrowseService accountBrowseService, StockMarketSubjectBrowseService stockMarketSubjectBrowseService, TransactionBrowseService browseService){
+    public TransactionManagementService(StockMarketTransactionRepository transactionRepository, AccountBrowseService accountBrowseService, StockMarketSubjectBrowseService stockMarketSubjectBrowseService){
         this.repo = transactionRepository;
         this.accountBrowseService = accountBrowseService;
         this.stockMarketSubjectBrowseService = stockMarketSubjectBrowseService;
-        this.browseService = browseService;
     }
 
     public StockMarketTransactionDTO createTransaction(StockMarketTransactionDTO dto){
-//        Account account = accountBrowseService.getAccountDomainObjectById(dto.getAccountId());
-//        StockMarketSubject subject = stockMarketSubjectBrowseService.getStockMarketSubjectDomainObjectById(dto.getSubjectId());
-//        StockMarketTransaction transaction = new StockMarketTransaction();
-//        transaction.setTransactionDate(dto.getTransactionDate());
-//        transaction.setVolume(dto.getVolume());
-//        transaction.setDescription(dto.getDescription());
-//        transaction.setOperationType(OperationType.valueOf(dto.getOperationType()));
-//        transaction.setPricePerOne(dto.getPricePerOne());
-//        transaction.setAccount(account);
-//        transaction.setSubject(subject);
-        StockMarketTransaction transaction = StockMarketTransactionMapper.INSTANCE.stockMarketTransactionDTOToStockMarketTransaction(dto);
+        Account account = accountBrowseService.getAccountDomainObjectById(dto.getAccountId());
+        StockMarketSubject subject = stockMarketSubjectBrowseService.getStockMarketSubjectDomainObjectById(dto.getSubjectId());
+        StockMarketTransaction transaction = StockMarketTransactionMapper.INSTANCE.toEntity(dto, account, subject);
         repo.save(transaction);
-        return StockMarketTransactionMapper.INSTANCE.stockMarketTransactionToStockMarketTransactionDTO(transaction);
+        return StockMarketTransactionMapper.INSTANCE.toDTO(transaction);
     }
 
     public boolean deleteTransaction(long id){

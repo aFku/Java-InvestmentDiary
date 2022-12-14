@@ -23,12 +23,12 @@ public class StockMarketSubjectManagementService {
     }
 
     public StockMarketSubjectDTO createStockMarketSubject(StockMarketSubjectDTO dto){
-        StockMarketSubject subject = new StockMarketSubject();
-        subject.setName(dto.getName());
-        subject.setInfoSources(dto.getInfoSources());
-        subject.setHasDividend(dto.isHasDividend());
+        StockMarketSubject subject = StockMarketSubjectMapper.INSTANCE.toEntity(dto);
+//        subject.setName(dto.getName());
+//        subject.setInfoSources(dto.getInfoSources());
+//        subject.setHasDividend(dto.isHasDividend());
         repo.save(subject);
-        return StockMarketSubjectMapper.INSTANCE.stockMarketSubjectToStockMarketSubjectDTO(subject);
+        return StockMarketSubjectMapper.INSTANCE.toDTO(subject);
     }
 
     public StockMarketSubjectDTO updateStockMarketSubjectById(int id, StockMarketSubjectDTO dto){
@@ -37,7 +37,7 @@ public class StockMarketSubjectManagementService {
         subject.setHasDividend(Objects.equals(dto.isHasDividend(), null) ? subject.hasDividend(): dto.isHasDividend());
         subject.setInfoSources(Objects.equals(dto.getInfoSources(), "") ? subject.getInfoSources(): dto.getInfoSources());
         repo.save(subject);
-        return StockMarketSubjectMapper.INSTANCE.stockMarketSubjectToStockMarketSubjectDTO(subject);
+        return StockMarketSubjectMapper.INSTANCE.toDTO(subject);
     }
 
     public boolean deleteStockMarketSubject(int id){

@@ -23,36 +23,13 @@ public class AccountBrowseService {
     }
 
     public BrokerAccountDTO findOneAccountById(int id){
-        return BrokerAccountMapper.INSTANCE.accountToBrokerAccountDTO(getAccountDomainObjectById(id));
+        return BrokerAccountMapper.INSTANCE.toDTO(getAccountDomainObjectById(id));
     }
 
     public CommonPaginationDTO<BrokerAccountDTO> findAllAccounts(Pageable pageable){
         Page<Account> accounts = repo.findAll(pageable);
         return PageableManagement.createPaginationDTO(accounts);
     }
-
-//    public PaginationAccountDTO findAllByField(String field, String value, Pageable pageable){
-//        Page<Account> accounts;
-//        switch (field){
-//            case "provider":
-//                accounts = repo.findAllByProvider(value, pageable);
-//                break;
-//            case "accountId":
-//                accounts = repo.findAllByAccountId(value, pageable);
-//                break;
-//            case "creationDate":
-//                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                try {
-//                    accounts = repo.findAllByCreationDate(df.parse(value), pageable);
-//                } catch (ParseException e) {
-//                    throw new AccountSearchException(e.getMessage());
-//                }
-//                break;
-//            default:
-//                throw new AccountSearchException("Invalid field name '" + field + "'");
-//        }
-//        return createPaginationResponse(accounts);
-//    }
 
     public Account getAccountDomainObjectById(int id){
         return repo.findById(id).orElseThrow( () -> new AccountNotFoundException("Account with id: " + id + " not found"));

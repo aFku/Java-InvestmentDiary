@@ -33,8 +33,7 @@ public class TransactionBrowseService {
     }
 
     public StockMarketTransactionDTO findOneTransactionById(long id){
-        return StockMarketTransactionMapper.INSTANCE.stockMarketTransactionToStockMarketTransactionDTO(getStockMarketTransactionDomainObjectById(id));
-        //return new StockMarketTransactionDTO(getStockMarketTransactionDomainObjectById(id));
+        return StockMarketTransactionMapper.INSTANCE.toDTO(getStockMarketTransactionDomainObjectById(id));
     }
 
     public CommonPaginationDTO<StockMarketTransactionDTO> findAllTransaction(Pageable pageable){

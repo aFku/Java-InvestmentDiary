@@ -26,15 +26,15 @@ public class AccountManagementService {
     }
 
     public BrokerAccountDTO createAccount(BrokerAccountDTO accountDto){
-        Account newAccount = new Account();
+        Account newAccount = BrokerAccountMapper.INSTANCE.toEntity(accountDto);
         if(accountDto.getProvider().isEmpty()){
             throw new AccountCreationException("'provider' field cannot be empty");
         }
         if(accountDto.getAccountId().isEmpty()){
             throw new AccountCreationException("'accountId' field cannot be empty");
         }
-        newAccount.setAccountId(accountDto.getAccountId());
-        newAccount.setProvider(accountDto.getProvider());
+        //newAccount.setAccountId(accountDto.getAccountId());
+        //newAccount.setProvider(accountDto.getProvider());
         repo.save(newAccount);
         int id = newAccount.getId();
         boolean created = repo.existsById(id);
@@ -42,7 +42,7 @@ public class AccountManagementService {
             throw new AccountManagementException("Account cannot be created");
         }
         logger.info(String.format("Created account ID: %d, provider: %s, accountId: %s", id, accountDto.getProvider(), accountDto.getAccountId()));
-        return BrokerAccountMapper.INSTANCE.accountToBrokerAccountDTO(newAccount);
+        return BrokerAccountMapper.INSTANCE.toDTO(newAccount);
     }
 
     public boolean deleteAccount(int id){
@@ -67,6 +67,6 @@ public class AccountManagementService {
         account.setProvider(Objects.equals(provider, "") ? account.getProvider(): provider);
         repo.save(account);
         logger.info(String.format("Account updated, id: %d, accountId: %s, provider: %s", id, account.getAccountId(), account.getProvider()));
-        return BrokerAccountMapper.INSTANCE.accountToBrokerAccountDTO(account);
+        return BrokerAccountMapper.INSTANCE.toDTO(account);
     }
 }

@@ -27,9 +27,8 @@ public class StockMarketSubjectBrowseService {
     }
 
     public StockMarketSubjectDTO getStockMarketSubjectById(int id){
-        StockMarketSubject s = getStockMarketSubjectDomainObjectById(id);
-        System.out.println(s.getId());
-        return StockMarketSubjectMapper.INSTANCE.stockMarketSubjectToStockMarketSubjectDTO(s);
+        StockMarketSubject subject = getStockMarketSubjectDomainObjectById(id);
+        return StockMarketSubjectMapper.INSTANCE.toDTO(subject);
         //return new StockMarketSubjectDTO(getStockMarketSubjectDomainObjectById(id));
     }
 
