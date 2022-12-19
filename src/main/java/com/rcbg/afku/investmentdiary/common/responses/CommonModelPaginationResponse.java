@@ -4,14 +4,15 @@ import com.rcbg.afku.investmentdiary.common.datatransferobjects.CommonPagination
 import com.rcbg.afku.investmentdiary.common.datatransferobjects.IPaginationDTO;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class CommonModelPaginationResponse<T> extends BasePaginationApiResponse{
+public class CommonModelPaginationResponse extends BasePaginationApiResponse{
 
-    private ArrayList<T> data;
+    private List<?> data;
 
     public CommonModelPaginationResponse() {}
 
-    public CommonModelPaginationResponse(int code, String uri, String type, CommonPaginationDTO<T> dto){
+    public CommonModelPaginationResponse(int code, String uri, String type, CommonPaginationDTO dto){
         super(code, uri, type,
                 dto.getPage(),
                 dto.getTotalPages(),
@@ -21,11 +22,11 @@ public class CommonModelPaginationResponse<T> extends BasePaginationApiResponse{
         this.data = dto.getData();
     }
 
-    public ArrayList<T> getData() {
+    public List<?> getData() {
         return data;
     }
 
-    public void setData(ArrayList<T> data) {
+    public void setData(List<?> data) {
         this.data = data;
     }
 }

@@ -1,10 +1,8 @@
 package com.rcbg.afku.investmentdiary.common.datatransferobjects;
 
-import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.ResponseAccountDTO;
+import java.util.List;
 
-import java.util.ArrayList;
-
-public class CommonPaginationDTO <T> {
+public class CommonPaginationDTO{
 
     private int page;
     private int totalPages;
@@ -12,11 +10,11 @@ public class CommonPaginationDTO <T> {
     private long totalElements;
 
     private boolean hasNext;
-    private ArrayList<T> data;
+    private List<?> data;
 
     public CommonPaginationDTO() {}
 
-    public CommonPaginationDTO(int page, int totalPages, int size, long totalElements, boolean hasNext, ArrayList<T> data){
+    public CommonPaginationDTO(int page, int totalPages, int size, long totalElements, boolean hasNext, List<?> data){
         this.page = page;
         this.totalPages = totalPages;
         this.size = size;
@@ -65,11 +63,11 @@ public class CommonPaginationDTO <T> {
         this.hasNext = hasNext;
     }
 
-    public ArrayList<T> getData() {
+    public List<?> getData() {
         return data;
     }
 
-    public void setData(ArrayList<T> data) {
+    public void setData(List<?> data) {
         this.data = data;
     }
 }

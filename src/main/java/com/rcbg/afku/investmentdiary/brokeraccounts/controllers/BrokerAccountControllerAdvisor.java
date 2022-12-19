@@ -23,19 +23,19 @@ public class BrokerAccountControllerAdvisor extends BaseControlAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     ResponseEntity<BaseApiErrorResponse> handleAccountNotFound(BrokerAccountsBaseRuntimeException ex, HttpServletRequest request){
         BaseApiErrorResponse response = processErrorToResponse(logger, ex, request, HttpStatus.NOT_FOUND);
-        return new ResponseEntity<BaseApiErrorResponse>(response, new HttpHeaders(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler({BrokerAccountsBaseRuntimeException.class, AccountSearchException.class, AccountCreationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<BaseApiErrorResponse> handleAccountBadRequest(BrokerAccountsBaseRuntimeException ex, HttpServletRequest request){
         BaseApiErrorResponse response = processErrorToResponse(logger, ex, request, HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<BaseApiErrorResponse>(response, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({AccountManagementException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<BaseApiErrorResponse> handleAccountInternalError(BrokerAccountsBaseRuntimeException ex, HttpServletRequest request) {
         BaseApiErrorResponse response = processErrorToResponse(logger, ex, request, HttpStatus.INTERNAL_SERVER_ERROR);
-        return new ResponseEntity<BaseApiErrorResponse>(response, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

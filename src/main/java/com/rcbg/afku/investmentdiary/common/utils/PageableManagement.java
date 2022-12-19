@@ -10,17 +10,15 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class PageableManagement {
-    public static <T, S> CommonPaginationDTO<T> createPaginationDTO(Page<S> page){
-        CommonPaginationDTO<T> dto = new CommonPaginationDTO<>();
+    public static CommonPaginationDTO createPaginationDTO(Page<?> page){
+        CommonPaginationDTO dto = new CommonPaginationDTO();
         validateIfPageOutOfRange(page);
         dto.setPage(page.getNumber());
-        dto.setHasNext(page.hasNext());
+        dto.setHasNext(page.isLast());
         dto.setSize(page.getSize());
         dto.setTotalPages(page.getTotalPages());
         dto.setTotalElements(page.getTotalElements());
-        ModelMapper modelMapper = new ModelMapper();
-        Type listType = new TypeToken<ArrayList<T>>() {}.getType();
-        dto.setData(modelMapper.map(page.getContent(), listType));
+        dto.setData(page.getContent());
         return dto;
     }
 

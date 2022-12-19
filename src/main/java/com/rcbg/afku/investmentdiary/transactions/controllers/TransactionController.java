@@ -1,13 +1,13 @@
-package com.rcbg.afku.investmentdiary.brokeraccounts.transactions.controllers;
+package com.rcbg.afku.investmentdiary.transactions.controllers;
 
-import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.datatransferobjects.StockMarketTransactionDTO;
-import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.services.TransactionManagementService;
+import com.rcbg.afku.investmentdiary.transactions.datatransferobjects.StockMarketTransactionDTO;
+import com.rcbg.afku.investmentdiary.transactions.services.TransactionManagementService;
 import com.rcbg.afku.investmentdiary.common.datatransferobjects.CommonPaginationDTO;
 import com.rcbg.afku.investmentdiary.common.responses.CommonModelPaginationResponse;
 import com.rcbg.afku.investmentdiary.common.responses.CommonResourceDeletedResponse;
 import com.rcbg.afku.investmentdiary.common.responses.CommonSingleModelResponse;
 import com.rcbg.afku.investmentdiary.common.statuses.ResourceDeletedStatus;
-import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.services.TransactionBrowseService;
+import com.rcbg.afku.investmentdiary.transactions.services.TransactionBrowseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -33,13 +33,13 @@ public class TransactionController {
     ResponseEntity<CommonSingleModelResponse<StockMarketTransactionDTO>> createTransaction(HttpServletRequest request, @RequestBody StockMarketTransactionDTO requestDto){
         StockMarketTransactionDTO stockMarketTransactionDTO = managementService.createTransaction(requestDto);
         CommonSingleModelResponse<StockMarketTransactionDTO> response = new CommonSingleModelResponse<StockMarketTransactionDTO>(200, request.getRequestURI(), "object",  stockMarketTransactionDTO);
-        return new ResponseEntity<CommonSingleModelResponse<StockMarketTransactionDTO>>(response, new HttpHeaders(), 200);
+        return new ResponseEntity<>(response, new HttpHeaders(), 200);
     }
 
     @GetMapping
-    ResponseEntity<CommonModelPaginationResponse<StockMarketTransactionDTO>> getAllTransactions(HttpServletRequest request, Pageable pageable){
-        CommonPaginationDTO<StockMarketTransactionDTO> paginationDto = browseService.findAllTransaction(pageable);
-        CommonModelPaginationResponse<StockMarketTransactionDTO> response = new CommonModelPaginationResponse<>(200, request.getRequestURI(), "list", paginationDto);
+    ResponseEntity<CommonModelPaginationResponse> getAllTransactions(HttpServletRequest request, Pageable pageable){
+        CommonPaginationDTO paginationDto = browseService.findAllTransaction(pageable);
+        CommonModelPaginationResponse response = new CommonModelPaginationResponse(200, request.getRequestURI(), "list", paginationDto);
         return new ResponseEntity<>(response, new HttpHeaders(), 200);
     }
 

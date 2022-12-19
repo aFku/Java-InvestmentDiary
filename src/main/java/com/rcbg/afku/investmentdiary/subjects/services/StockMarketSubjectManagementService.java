@@ -2,6 +2,7 @@ package com.rcbg.afku.investmentdiary.subjects.services;
 
 import com.rcbg.afku.investmentdiary.brokeraccounts.services.AccountBrowseService;
 import com.rcbg.afku.investmentdiary.subjects.datatransferobjects.StockMarketSubjectDTO;
+import com.rcbg.afku.investmentdiary.subjects.datatransferobjects.StockMarketSubjectMapper;
 import com.rcbg.afku.investmentdiary.subjects.entities.StockMarketSubject;
 import com.rcbg.afku.investmentdiary.subjects.repositories.StockMarketSubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,21 +23,16 @@ public class StockMarketSubjectManagementService {
     }
 
     public StockMarketSubjectDTO createStockMarketSubject(StockMarketSubjectDTO dto){
-        StockMarketSubject subject = new StockMarketSubject();
-        subject.setName(dto.getName());
-        subject.setInfoSources(dto.getInfoSources());
-        subject.setHasDividend(dto.isHasDividend());
+        StockMarketSubject subject = StockMarketSubjectMapper.INSTANCE.toEntity(dto);
         repo.save(subject);
-        return new StockMarketSubjectDTO(subject);
+        return StockMarketSubjectMapper.INSTANCE.toDTO(subject);
     }
 
     public StockMarketSubjectDTO updateStockMarketSubjectById(int id, StockMarketSubjectDTO dto){
         StockMarketSubject subject = browseService.getStockMarketSubjectDomainObjectById(id);
-        subject.setName(Objects.equals(dto.getName(), "") ? subject.getName(): dto.getName());
-        subject.setHasDividend(Objects.equals(dto.isHasDividend(), null) ? subject.hasDividend(): dto.isHasDividend());
-        subject.setInfoSources(Objects.equals(dto.getInfoSources(), "") ? subject.getInfoSources(): dto.getInfoSources());
+        subject = StockMarketSubjectMapper.INSTANCE.updateEntity(dto, subject);
         repo.save(subject);
-        return new StockMarketSubjectDTO(subject);
+        return StockMarketSubjectMapper.INSTANCE.toDTO(subject);
     }
 
     public boolean deleteStockMarketSubject(int id){

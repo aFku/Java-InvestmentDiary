@@ -1,7 +1,7 @@
-package com.rcbg.afku.investmentdiary.brokeraccounts.transactions.datatransferobjects;
+package com.rcbg.afku.investmentdiary.transactions.datatransferobjects;
 
-import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.entities.StockMarketTransaction;
-import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.entities.TransactionDescription;
+import com.rcbg.afku.investmentdiary.transactions.entities.StockMarketTransaction;
+import com.rcbg.afku.investmentdiary.transactions.entities.TransactionDescription;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
@@ -39,6 +39,14 @@ public class StockMarketTransactionDTO {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public Date getCreationDate() {
@@ -102,16 +110,4 @@ public class StockMarketTransactionDTO {
     }
 
     public StockMarketTransactionDTO(){}
-
-    public StockMarketTransactionDTO(StockMarketTransaction transaction){
-        this.id = transaction.getId();
-        this.creationDate = transaction.getCreationDate();
-        this.transactionDate = transaction.getTransactionDate();
-        this.pricePerOne = transaction.getPricePerOne();
-        this.volume = transaction.getVolume();
-        this.operationType = transaction.getOperationType().name();
-        this.description = transaction.getDescription();
-        this.subjectId = transaction.getSubject().getId();
-        this.accountId = transaction.getAccount().getId();
-    }
 }

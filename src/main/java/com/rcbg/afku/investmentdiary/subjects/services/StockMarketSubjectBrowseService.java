@@ -3,6 +3,7 @@ package com.rcbg.afku.investmentdiary.subjects.services;
 import com.rcbg.afku.investmentdiary.common.datatransferobjects.CommonPaginationDTO;
 import com.rcbg.afku.investmentdiary.common.utils.PageableManagement;
 import com.rcbg.afku.investmentdiary.subjects.datatransferobjects.StockMarketSubjectDTO;
+import com.rcbg.afku.investmentdiary.subjects.datatransferobjects.StockMarketSubjectMapper;
 import com.rcbg.afku.investmentdiary.subjects.entities.StockMarketSubject;
 import com.rcbg.afku.investmentdiary.subjects.exceptions.StockMarketSubjectNotFound;
 import com.rcbg.afku.investmentdiary.subjects.repositories.StockMarketSubjectRepository;
@@ -26,11 +27,12 @@ public class StockMarketSubjectBrowseService {
     }
 
     public StockMarketSubjectDTO getStockMarketSubjectById(int id){
-        return new StockMarketSubjectDTO(getStockMarketSubjectDomainObjectById(id));
+        StockMarketSubject subject = getStockMarketSubjectDomainObjectById(id);
+        return StockMarketSubjectMapper.INSTANCE.toDTO(subject);
     }
 
-    public CommonPaginationDTO<StockMarketSubjectDTO> getAllStockMarketSubjects(Pageable pageable){
-        Page<StockMarketSubject> subjects = repo.findAll(pageable);
+    public CommonPaginationDTO getAllStockMarketSubjects(Pageable pageable){
+        Page<StockMarketSubjectDTO> subjects = repo.findAll(pageable).map(StockMarketSubjectMapper.INSTANCE::toDTO);
         return PageableManagement.createPaginationDTO(subjects);
     }
 }

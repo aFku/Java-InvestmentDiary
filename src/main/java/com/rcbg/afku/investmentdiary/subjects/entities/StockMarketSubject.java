@@ -2,7 +2,7 @@ package com.rcbg.afku.investmentdiary.subjects.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.rcbg.afku.investmentdiary.brokeraccounts.entities.Account;
-import com.rcbg.afku.investmentdiary.brokeraccounts.transactions.entities.StockMarketTransaction;
+import com.rcbg.afku.investmentdiary.transactions.entities.StockMarketTransaction;
 
 import javax.persistence.*;
 import java.util.List;
@@ -50,7 +50,7 @@ public class StockMarketSubject{
         this.infoSources = infoSources;
     }
 
-    public boolean hasDividend() {
+    public boolean isHasDividend() {
         return hasDividend;
     }
 
