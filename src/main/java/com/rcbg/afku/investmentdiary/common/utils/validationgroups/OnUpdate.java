@@ -1,4 +1,4 @@
 package com.rcbg.afku.investmentdiary.common.utils.validationgroups;
 
-public interface OnUpdate {
+public interface OnUpdate extends BaseValidationGroup{
 }
