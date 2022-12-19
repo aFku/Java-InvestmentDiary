@@ -2,8 +2,6 @@ package com.rcbg.afku.investmentdiary.common.utils;
 
 import com.rcbg.afku.investmentdiary.common.datatransferobjects.CommonPaginationDTO;
 import com.rcbg.afku.investmentdiary.common.exceptions.PaginationPageNotFoundException;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 
 import java.lang.reflect.Type;
