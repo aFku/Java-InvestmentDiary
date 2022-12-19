@@ -12,12 +12,12 @@ import java.util.List;
 public abstract class BaseControlAdvice extends ResponseEntityExceptionHandler {
 
     protected BaseApiErrorResponse processErrorToResponse(Logger logger, RuntimeException ex, HttpServletRequest request, HttpStatus code){
-        logger.error(String.format("%s | %s, code: %d", request.getRequestURI(), ex.getMessage(), code.value()));
+        logger.error(String.format("Error: %s [%s] | %s, code: %d", request.getRequestURI(), request.getMethod(),ex.getMessage(), code.value()));
         return new BaseApiErrorResponse(code.value(), request.getRequestURI(), ex.getMessage());
     }
 
     protected BaseApiErrorResponse processMultipleErrorsToResponse(Logger logger, List<String> messages, HttpServletRequest request, HttpStatus code){
-        logger.error(String.format("%s | %s, code: %d", request.getRequestURI(), messages, code.value()));
+        logger.error(String.format("Error: %s [%s] | %s, code: %d", request.getRequestURI(), request.getMethod(), messages, code.value()));
         return new BaseApiErrorResponse(code.value(), request.getRequestURI(), messages);
     }
 }
