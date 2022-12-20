@@ -5,10 +5,7 @@ import com.rcbg.afku.investmentdiary.transactions.entities.TransactionDescriptio
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.sql.Date;
 
@@ -18,24 +15,24 @@ public class StockMarketTransactionDTO {
     Long id;
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     Date creationDate;
-    @Past
-    @NotEmpty
+    @Past(message = "You cannot create transaction from feature")
+    @NotNull(message = "'transactionDate' field is required")
     Date transactionDate;
-    @NotEmpty
-    @Positive
+    @NotNull(message = "'pricePerOne' field is required")
+    @Positive(message = "Price cannot be negative number or zero")
     BigDecimal pricePerOne;
-    @NotEmpty
-    @Positive
-    int volume;
-    @NotEmpty
+    @NotNull(message = "'volume' field is required")
+    @Positive(message = "Volume cannot be negative number or zero")
+    Integer volume;
+    @NotBlank(message = "'operationType' field is required")
     String operationType;
     TransactionDescription description;
-    @NotEmpty
-    @PositiveOrZero
-    int subjectId;
-    @NotEmpty
-    @PositiveOrZero
-    int accountId;
+    @NotNull(message = "'subjectId' field is required")
+    @Positive(message = "Subjects id is always positive integer")
+    Integer subjectId;
+    @NotNull(message = "'accountId' field is required")
+    @Positive(message = "Account id is always positive integer")
+    Integer accountId;
 
     public Long getId() {
         return id;
@@ -69,11 +66,11 @@ public class StockMarketTransactionDTO {
         this.pricePerOne = pricePerOne;
     }
 
-    public int getVolume() {
+    public Integer getVolume() {
         return volume;
     }
 
-    public void setVolume(int volume) {
+    public void setVolume(Integer volume) {
         this.volume = volume;
     }
 
@@ -93,19 +90,19 @@ public class StockMarketTransactionDTO {
         this.description = description;
     }
 
-    public int getSubjectId() {
+    public Integer getSubjectId() {
         return subjectId;
     }
 
-    public void setSubjectId(int subjectId) {
+    public void setSubjectId(Integer subjectId) {
         this.subjectId = subjectId;
     }
 
-    public int getAccountId() {
+    public Integer getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(int accountId) {
+    public void setAccountId(Integer accountId) {
         this.accountId = accountId;
     }
 

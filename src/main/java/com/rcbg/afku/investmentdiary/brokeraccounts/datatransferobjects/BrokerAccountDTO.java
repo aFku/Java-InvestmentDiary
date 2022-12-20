@@ -1,17 +1,27 @@
 package com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.rcbg.afku.investmentdiary.common.utils.validationgroups.BaseValidationGroup;
+import com.rcbg.afku.investmentdiary.common.utils.validationgroups.OnCreate;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BrokerAccountDTO {
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     int id;
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     Date creationDate;
 
+    @NotBlank(message = "'provider' field is required", groups = OnCreate.class)
+    @Size(min = 3, max = 32, message = "'provider' field should be between 3 and 32 character long", groups = BaseValidationGroup.class)
     String provider;
 
+    @NotBlank(message = "'accountId' field is required", groups = OnCreate.class)
+    @Size(min = 1, max = 32, message = "'accountId' field should be between 1 and 32 character long", groups = BaseValidationGroup.class)
     String accountId;
 
     public int getId() {

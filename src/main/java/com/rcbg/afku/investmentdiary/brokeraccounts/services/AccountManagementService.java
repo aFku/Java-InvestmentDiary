@@ -7,14 +7,18 @@ import com.rcbg.afku.investmentdiary.brokeraccounts.exceptions.AccountCreationEx
 import com.rcbg.afku.investmentdiary.brokeraccounts.exceptions.AccountManagementException;
 import com.rcbg.afku.investmentdiary.brokeraccounts.exceptions.AccountNotFoundException;
 import com.rcbg.afku.investmentdiary.brokeraccounts.repositories.AccountRepository;
+import com.rcbg.afku.investmentdiary.common.utils.validationgroups.OnCreate;
+import com.rcbg.afku.investmentdiary.common.utils.validationgroups.OnUpdate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
-import java.util.Objects;
+import javax.validation.Valid;
 
 @Service
+@Validated
 public class AccountManagementService {
 
     private static final Logger logger = LoggerFactory.getLogger(AccountManagementService.class);
@@ -25,7 +29,8 @@ public class AccountManagementService {
         this.repo = accountRepository;
     }
 
-    public BrokerAccountDTO createAccount(BrokerAccountDTO accountDto){
+    @Validated(OnCreate.class)
+    public BrokerAccountDTO createAccount(@Valid BrokerAccountDTO accountDto){
         Account newAccount = BrokerAccountMapper.INSTANCE.toEntity(accountDto);
         if(accountDto.getProvider().isEmpty()){
             throw new AccountCreationException("'provider' field cannot be empty");
@@ -57,7 +62,8 @@ public class AccountManagementService {
         return true;
     }
 
-    public BrokerAccountDTO updateAccount(int id, BrokerAccountDTO requestAccountDTO){
+    @Validated(OnUpdate.class)
+    public BrokerAccountDTO updateAccount(int id, @Valid BrokerAccountDTO requestAccountDTO){
         Account account = repo.findById(id).orElseThrow(() -> new AccountNotFoundException("Account with ID: " + id + " does not exist"));
         account = BrokerAccountMapper.INSTANCE.updateEntity(requestAccountDTO, account);
         repo.save(account);

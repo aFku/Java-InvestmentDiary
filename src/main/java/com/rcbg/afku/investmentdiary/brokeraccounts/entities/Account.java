@@ -5,6 +5,7 @@ import com.rcbg.afku.investmentdiary.subjects.entities.StockMarketSubject;
 import com.rcbg.afku.investmentdiary.transactions.entities.StockMarketTransaction;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
@@ -14,8 +15,8 @@ import java.util.Set;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
     @Column(updatable = false, nullable = false)
@@ -27,8 +28,8 @@ public class Account {
     @Column(nullable = false)
     String accountId;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonBackReference
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     List<StockMarketTransaction> transactions;
 
     @ManyToMany

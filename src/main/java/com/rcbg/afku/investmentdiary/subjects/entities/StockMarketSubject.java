@@ -20,6 +20,7 @@ public class StockMarketSubject{
 
     String infoSources;
 
+    @Column(nullable = false)
     boolean hasDividend;
 
     @OneToMany(mappedBy = "subject")

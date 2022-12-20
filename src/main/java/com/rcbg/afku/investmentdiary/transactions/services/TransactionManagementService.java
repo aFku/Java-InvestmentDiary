@@ -13,8 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
 
 @Service
+@Validated
 public class TransactionManagementService {
 
     private static final Logger logger = LoggerFactory.getLogger(TransactionManagementService.class);
@@ -30,7 +34,7 @@ public class TransactionManagementService {
         this.stockMarketSubjectBrowseService = stockMarketSubjectBrowseService;
     }
 
-    public StockMarketTransactionDTO createTransaction(StockMarketTransactionDTO dto){
+    public StockMarketTransactionDTO createTransaction(@Valid StockMarketTransactionDTO dto){
         Account account = accountBrowseService.getAccountDomainObjectById(dto.getAccountId());
         StockMarketSubject subject = stockMarketSubjectBrowseService.getStockMarketSubjectDomainObjectById(dto.getSubjectId());
         StockMarketTransaction transaction = StockMarketTransactionMapper.INSTANCE.toEntity(dto, account, subject);
