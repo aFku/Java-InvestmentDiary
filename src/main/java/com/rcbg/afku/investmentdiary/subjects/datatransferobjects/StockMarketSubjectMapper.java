@@ -4,7 +4,7 @@ import com.rcbg.afku.investmentdiary.subjects.entities.StockMarketSubject;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface StockMarketSubjectMapper {
 
     StockMarketSubjectMapper INSTANCE = Mappers.getMapper(StockMarketSubjectMapper.class);
