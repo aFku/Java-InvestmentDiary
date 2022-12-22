@@ -32,14 +32,14 @@ public class GeneralControlAdvice extends BaseControlAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<BaseApiErrorResponse> handleBadRequest(RuntimeException ex, HttpServletRequest request){
         BaseApiErrorResponse response = processErrorToResponse(logger, ex, request, HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<BaseApiErrorResponse>(response, new HttpHeaders(), 400);
+        return new ResponseEntity<>(response, new HttpHeaders(), 400);
     }
 
     @ExceptionHandler({PaginationPageNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<BaseApiErrorResponse> handleNotFound(RuntimeException ex, HttpServletRequest request){
         BaseApiErrorResponse response = processErrorToResponse(logger, ex, request, HttpStatus.NOT_FOUND);
-        return new ResponseEntity<BaseApiErrorResponse>(response, new HttpHeaders(), 404);
+        return new ResponseEntity<>(response, new HttpHeaders(), 404);
     }
 
     @ExceptionHandler({ConstraintViolationException.class})
@@ -52,6 +52,6 @@ public class GeneralControlAdvice extends BaseControlAdvice {
             constraintViolationMessages.add(fieldName + " : " + violation.getMessage());
         }
         BaseApiErrorResponse response = processMultipleErrorsToResponse(logger, constraintViolationMessages, request, HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<BaseApiErrorResponse>(response, new HttpHeaders(), 400);
+        return new ResponseEntity<>(response, new HttpHeaders(), 400);
     }
 }

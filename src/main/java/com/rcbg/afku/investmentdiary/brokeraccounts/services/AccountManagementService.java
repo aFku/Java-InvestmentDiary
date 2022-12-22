@@ -3,15 +3,14 @@ package com.rcbg.afku.investmentdiary.brokeraccounts.services;
 import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.BrokerAccountDTO;
 import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.BrokerAccountMapper;
 import com.rcbg.afku.investmentdiary.brokeraccounts.entities.Account;
-import com.rcbg.afku.investmentdiary.brokeraccounts.exceptions.AccountCreationException;
-import com.rcbg.afku.investmentdiary.brokeraccounts.exceptions.AccountManagementException;
-import com.rcbg.afku.investmentdiary.brokeraccounts.exceptions.AccountNotFoundException;
 import com.rcbg.afku.investmentdiary.brokeraccounts.repositories.AccountRepository;
 import com.rcbg.afku.investmentdiary.common.utils.validationgroups.OnCreate;
 import com.rcbg.afku.investmentdiary.common.utils.validationgroups.OnUpdate;
+import com.rcbg.afku.investmentdiary.transactions.exceptions.TransactionNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -24,50 +23,40 @@ public class AccountManagementService {
     private static final Logger logger = LoggerFactory.getLogger(AccountManagementService.class);
     private final AccountRepository repo;
 
+    private final AccountBrowseService browseService;
+
     @Autowired
-    public AccountManagementService(AccountRepository accountRepository){
+    public AccountManagementService(AccountRepository accountRepository, AccountBrowseService browseService){
         this.repo = accountRepository;
+        this.browseService = browseService;
     }
 
     @Validated(OnCreate.class)
-    public BrokerAccountDTO createAccount(@Valid BrokerAccountDTO accountDto){
-        Account newAccount = BrokerAccountMapper.INSTANCE.toEntity(accountDto);
-        if(accountDto.getProvider().isEmpty()){
-            throw new AccountCreationException("'provider' field cannot be empty");
-        }
-        if(accountDto.getAccountId().isEmpty()){
-            throw new AccountCreationException("'accountId' field cannot be empty");
-        }
+    public BrokerAccountDTO createAccount(@Valid BrokerAccountDTO dto){
+        Account newAccount = BrokerAccountMapper.INSTANCE.toEntity(dto);
         repo.save(newAccount);
-        int id = newAccount.getId();
-        boolean created = repo.existsById(id);
-        if(!created){
-            throw new AccountManagementException("Account cannot be created");
-        }
-        logger.info(String.format("Created account ID: %d, provider: %s, accountId: %s", id, accountDto.getProvider(), accountDto.getAccountId()));
-        return BrokerAccountMapper.INSTANCE.toDTO(newAccount);
+        BrokerAccountDTO newDto = BrokerAccountMapper.INSTANCE.toDTO(newAccount);
+        logger.info("Created account " + newDto);
+        return newDto;
     }
 
     public boolean deleteAccount(int id){
-        boolean exist = repo.existsById(id);
-        if(!exist){
-            throw new AccountNotFoundException("Account with ID: " + id + " does not exist");
+        try {
+            repo.deleteById(id);
+        } catch (EmptyResultDataAccessException e){
+            throw new TransactionNotFoundException("Account with id: " + id + " not found");
         }
-        repo.deleteById(id);
-        boolean deleted = !repo.existsById(id);
-        if(!deleted){
-            throw new AccountManagementException( "Account with ID: " + id + " cannot be deleted");
-        }
-        logger.info(String.format("Account deleted, id: %d", id));
+        logger.info("Account with id: " + id + " deleted");
         return true;
     }
 
     @Validated(OnUpdate.class)
-    public BrokerAccountDTO updateAccount(int id, @Valid BrokerAccountDTO requestAccountDTO){
-        Account account = repo.findById(id).orElseThrow(() -> new AccountNotFoundException("Account with ID: " + id + " does not exist"));
-        account = BrokerAccountMapper.INSTANCE.updateEntity(requestAccountDTO, account);
+    public BrokerAccountDTO updateAccount(int id, @Valid BrokerAccountDTO dto){
+        Account account = browseService.getAccountDomainObjectById(id);
+        account = BrokerAccountMapper.INSTANCE.updateEntity(dto, account);
         repo.save(account);
-        logger.info(String.format("Account updated, id: %d, accountId: %s, provider: %s", id, account.getAccountId(), account.getProvider()));
-        return BrokerAccountMapper.INSTANCE.toDTO(account);
+        BrokerAccountDTO updatedDto = BrokerAccountMapper.INSTANCE.toDTO(account);
+        logger.info("Account with id: " + id + " updated to " + updatedDto);
+        return updatedDto;
     }
 }

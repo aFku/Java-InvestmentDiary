@@ -1,22 +1,26 @@
 package com.rcbg.afku.investmentdiary.subjects.services;
 
-import com.rcbg.afku.investmentdiary.brokeraccounts.services.AccountBrowseService;
 import com.rcbg.afku.investmentdiary.common.utils.validationgroups.OnCreate;
 import com.rcbg.afku.investmentdiary.common.utils.validationgroups.OnUpdate;
 import com.rcbg.afku.investmentdiary.subjects.datatransferobjects.StockMarketSubjectDTO;
 import com.rcbg.afku.investmentdiary.subjects.datatransferobjects.StockMarketSubjectMapper;
 import com.rcbg.afku.investmentdiary.subjects.entities.StockMarketSubject;
+import com.rcbg.afku.investmentdiary.subjects.exceptions.StockMarketSubjectNotFound;
 import com.rcbg.afku.investmentdiary.subjects.repositories.StockMarketSubjectRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
-import java.util.Objects;
 
 @Service
 @Validated
 public class StockMarketSubjectManagementService {
+
+    private static final Logger logger = LoggerFactory.getLogger(StockMarketSubjectManagementService.class);
 
     private final StockMarketSubjectRepository repo;
     private final StockMarketSubjectBrowseService browseService;
@@ -31,7 +35,9 @@ public class StockMarketSubjectManagementService {
     public StockMarketSubjectDTO createStockMarketSubject(@Valid StockMarketSubjectDTO dto){
         StockMarketSubject subject = StockMarketSubjectMapper.INSTANCE.toEntity(dto);
         repo.save(subject);
-        return StockMarketSubjectMapper.INSTANCE.toDTO(subject);
+        StockMarketSubjectDTO newDto = StockMarketSubjectMapper.INSTANCE.toDTO(subject);
+        logger.info(String.format("Created subject " + newDto));
+        return newDto;
     }
 
     @Validated(OnUpdate.class)
@@ -39,13 +45,18 @@ public class StockMarketSubjectManagementService {
         StockMarketSubject subject = browseService.getStockMarketSubjectDomainObjectById(id);
         subject = StockMarketSubjectMapper.INSTANCE.updateEntity(dto, subject);
         repo.save(subject);
-        return StockMarketSubjectMapper.INSTANCE.toDTO(subject);
+        StockMarketSubjectDTO updatedDto = StockMarketSubjectMapper.INSTANCE.toDTO(subject);
+        logger.info("Subject with id: " + id + " updated to " + updatedDto);
+        return updatedDto;
     }
 
     public boolean deleteStockMarketSubject(int id){
-        repo.deleteById(id);
+        try {
+            repo.deleteById(id);
+        } catch (EmptyResultDataAccessException e){
+            throw new StockMarketSubjectNotFound("Subject with id: " + id + " not found");
+        }
+        logger.info("Subject with id: " + id + " deleted");
         return true;
     }
-
-
 }

@@ -6,12 +6,13 @@ import com.rcbg.afku.investmentdiary.subjects.entities.StockMarketSubject;
 import com.rcbg.afku.investmentdiary.subjects.services.StockMarketSubjectBrowseService;
 import com.rcbg.afku.investmentdiary.transactions.datatransferobjects.StockMarketTransactionDTO;
 import com.rcbg.afku.investmentdiary.transactions.datatransferobjects.StockMarketTransactionMapper;
-import com.rcbg.afku.investmentdiary.transactions.entities.OperationType;
 import com.rcbg.afku.investmentdiary.transactions.entities.StockMarketTransaction;
+import com.rcbg.afku.investmentdiary.transactions.exceptions.TransactionNotFoundException;
 import com.rcbg.afku.investmentdiary.transactions.repositories.StockMarketTransactionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -39,11 +40,18 @@ public class TransactionManagementService {
         StockMarketSubject subject = stockMarketSubjectBrowseService.getStockMarketSubjectDomainObjectById(dto.getSubjectId());
         StockMarketTransaction transaction = StockMarketTransactionMapper.INSTANCE.toEntity(dto, account, subject);
         repo.save(transaction);
-        return StockMarketTransactionMapper.INSTANCE.toDTO(transaction);
+        StockMarketTransactionDTO newDto = StockMarketTransactionMapper.INSTANCE.toDTO(transaction);
+        logger.info("Created transaction " + newDto);
+        return newDto;
     }
 
     public boolean deleteTransaction(long id){
-        repo.deleteById(id);
+        try{
+            repo.deleteById(id);
+        } catch(EmptyResultDataAccessException e) {
+            throw new TransactionNotFoundException("Transaction with id: " + id + " not found");
+        }
+        logger.info("Transaction with id: " + id + " deleted");
         return true;
     }
 }

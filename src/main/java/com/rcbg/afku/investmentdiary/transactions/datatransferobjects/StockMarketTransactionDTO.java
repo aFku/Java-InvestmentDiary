@@ -107,4 +107,17 @@ public class StockMarketTransactionDTO {
     }
 
     public StockMarketTransactionDTO(){}
+
+    @Override
+    public String toString(){
+        return "{" + "id: " + this.id +
+                ", creationDate: " + this.creationDate +
+                ", transactionDate: " + this.transactionDate +
+                ", price: " + this.pricePerOne +
+                ", volume: " + this.volume +
+                ", operationType: " + this.operationType +
+                ", subjectId: " + this.subjectId +
+                ", accountId: " + this.accountId +
+                "}";
+    }
 }
