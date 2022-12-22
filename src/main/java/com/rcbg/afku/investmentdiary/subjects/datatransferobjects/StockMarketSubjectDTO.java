@@ -59,4 +59,13 @@ public class StockMarketSubjectDTO {
     }
 
     public StockMarketSubjectDTO(){}
+
+    @Override
+    public String toString(){
+        return "{" + "id: " + this.id +
+                ", name: " + this.name +
+                ", infoSources: " + this.infoSources +
+                ", hasDividend: " + this.hasDividend +
+                "}";
+    }
 }

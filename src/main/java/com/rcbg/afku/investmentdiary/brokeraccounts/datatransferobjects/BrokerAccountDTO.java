@@ -55,4 +55,12 @@ public class BrokerAccountDTO {
     public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
+
+    public String toString(){
+        return "{" + "id: " + this.id +
+                ", creationDate: " + this.creationDate +
+                ", accountId: " + this.accountId +
+                ", provider: " + this.provider +
+                "}";
+    }
 }
