@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.rcbg.afku.investmentdiary.common.utils.validationgroups.BaseValidationGroup;
 import com.rcbg.afku.investmentdiary.common.utils.validationgroups.OnCreate;
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;

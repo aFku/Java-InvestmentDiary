@@ -1,7 +1,6 @@
 package com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects;
 
-import com.rcbg.afku.investmentdiary.brokeraccounts.entities.Account;
-import com.rcbg.afku.investmentdiary.subjects.datatransferobjects.StockMarketSubjectMapper;
+import com.rcbg.afku.investmentdiary.brokeraccounts.entities.BrokerAccount;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -10,14 +9,14 @@ public interface BrokerAccountMapper {
 
     BrokerAccountMapper INSTANCE = Mappers.getMapper(BrokerAccountMapper.class);
 
-    BrokerAccountDTO toDTO(Account account);
+    BrokerAccountDTO toDTO(BrokerAccount brokerAccount);
 
     @InheritInverseConfiguration
-    Account toEntity(BrokerAccountDTO dto);
+    BrokerAccount toEntity(BrokerAccountDTO dto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "creationDate", ignore = true)
-    @Mapping(target = "transactions", ignore = true)
-    @Mapping(target = "currentlyOwnedSubjects", ignore = true)
-    Account updateEntity(BrokerAccountDTO dto, @MappingTarget Account account);
+    @Mapping(target = "marketOperations", ignore = true)
+    @Mapping(target = "ownedMarketSubjects", ignore = true)
+    BrokerAccount updateEntity(BrokerAccountDTO dto, @MappingTarget BrokerAccount brokerAccount);
 }
