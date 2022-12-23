@@ -1,9 +1,6 @@
 package com.rcbg.afku.investmentdiary.common.responses;
 
 import com.rcbg.afku.investmentdiary.common.datatransferobjects.CommonPaginationDTO;
-import com.rcbg.afku.investmentdiary.common.datatransferobjects.IPaginationDTO;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class CommonModelPaginationResponse extends BasePaginationApiResponse{

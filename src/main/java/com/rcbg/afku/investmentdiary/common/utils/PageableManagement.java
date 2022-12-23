@@ -4,9 +4,6 @@ import com.rcbg.afku.investmentdiary.common.datatransferobjects.CommonPagination
 import com.rcbg.afku.investmentdiary.common.exceptions.PaginationPageNotFoundException;
 import org.springframework.data.domain.Page;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-
 public class PageableManagement {
     public static CommonPaginationDTO createPaginationDTO(Page<?> page){
         CommonPaginationDTO dto = new CommonPaginationDTO();

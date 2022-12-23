@@ -1,7 +1,5 @@
 package com.rcbg.afku.investmentdiary.common.responses;
 
-import org.springframework.beans.factory.annotation.Value;
-
 public abstract class BaseApiResponse {
 
     private String version = "v1";
