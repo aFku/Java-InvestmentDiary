@@ -10,22 +10,9 @@ class TestBrokerAccounts(InvestmentDiaryBaseTestClass):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.setup_envs()
-        self.engine = self.build_engine()
-        self.db_connection = self.engine.connect()
-        self.tables = sqlalchemy.inspect(self.engine).get_table_names()
 
     def setUp(self):
-        with contextlib.closing(self.db_connection) as con:
-            trans = con.begin()
-            for table in reversed(self.tables):
-                con.execute(f'''TRUNCATE TABLE {table}''')
-            trans.commit()
-
-    def accounts_url(self, suffix=None):
-        url = "http://localhost:8080/v1/accounts"
-        url += f"/{suffix}" if suffix else ""
-        return url
+        self.clear_db()
 
     def test_broker_account_creation_success(self):
         payload = {

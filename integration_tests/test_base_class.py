@@ -2,9 +2,16 @@ import unittest
 import json
 import requests
 import sqlalchemy
-
+import contextlib
 
 class InvestmentDiaryBaseTestClass(unittest.TestCase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setup_envs()
+        self.engine = self.build_engine()
+        self.db_connection = self.engine.connect()
+        self.tables = sqlalchemy.inspect(self.engine).get_table_names()
 
     def setup_envs(self):
         self.DB_password = "billionaire"
@@ -16,6 +23,13 @@ class InvestmentDiaryBaseTestClass(unittest.TestCase):
     def build_engine(self):
         creation_cmd = f"{self.DB_vendor}://{self.DB_user}:{self.DB_password}@{self.DB_url}/{self.DB_name}"
         return sqlalchemy.create_engine(creation_cmd, echo=False)
+
+    def clear_db(self):
+        with contextlib.closing(self.db_connection) as con:
+            trans = con.begin()
+            for table in reversed(self.tables):
+                con.execute(f'''TRUNCATE TABLE {table}''')
+            trans.commit()
 
     def compare_objects(self, obj1, obj2):
         obj1_parsed = json.dumps(obj1, sort_keys=True)
@@ -41,3 +55,15 @@ class InvestmentDiaryBaseTestClass(unittest.TestCase):
         self.assertEqual(response.status_code, code)
         response_content = json.loads(response.text)["messages"]
         self.compare_lists(payload, response_content)
+    def operations_url(self, suffix=None):
+        url = "http://localhost:8080/v1/operations"
+        url += f"/{suffix}" if suffix else ""
+        return url
+    def subjects_url(self, suffix=None):
+        url = "http://localhost:8080/v1/subjects"
+        url += f"/{suffix}" if suffix else ""
+        return url
+    def accounts_url(self, suffix=None):
+        url = "http://localhost:8080/v1/accounts"
+        url += f"/{suffix}" if suffix else ""
+        return url
