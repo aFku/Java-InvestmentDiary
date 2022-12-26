@@ -37,7 +37,7 @@ class TestBrokerAccounts(InvestmentDiaryBaseTestClass):
         }
 
         response = requests.post("http://localhost:8080/v1/accounts", json=payload)
-        self.validate_single_response(expected, response, 200)
+        self.validate_object_response(expected, response, 200)
 
     def test_broker_account_creation_failure_without_key(self):
         payload = {
@@ -111,3 +111,133 @@ class TestBrokerAccounts(InvestmentDiaryBaseTestClass):
         ]
         response = requests.delete("http://localhost:8080/v1/accounts/2")
         self.validate_error_response(expected, response, 404)
+
+    def test_broker_account_update_success(self):
+        payload = {
+            "provider": "testprovider",
+            "accountId": "123456A"
+        }
+        requests.post("http://localhost:8080/v1/accounts", json=payload)
+        payload = {
+            "provider": "provider",
+            "accountId": "97865A"
+        }
+        response = requests.put("http://localhost:8080/v1/accounts/1", json=payload)
+        expected = {
+            "id": 1,
+            "provider": "provider",
+            "accountId": "97865A",
+            "creationDate": date.today().strftime("%Y-%m-%d")
+        }
+        self.validate_object_response(expected, response, 200)
+
+    def test_broker_account_update_part_success(self):
+        payload = {
+            "provider": "testprovider",
+            "accountId": "123456A"
+        }
+        requests.post("http://localhost:8080/v1/accounts", json=payload)
+        payload = {
+            "provider": "provider-part"
+        }
+        response = requests.put("http://localhost:8080/v1/accounts/1",json=payload)
+        expected = {
+            "id": 1,
+            "provider": "provider-part",
+            "accountId": "123456A",
+            "creationDate": date.today().strftime("%Y-%m-%d")
+        }
+        self.validate_object_response(expected, response, 200)
+
+    def test_broker_accounts_update_failure_not_found(self):
+        payload = {
+            "provider": "provider",
+            "accountId": "97865A"
+        }
+        response = requests.put("http://localhost:8080/v1/accounts/10", json=payload)
+        expected = [
+            "Broker account with id: 10 not found"
+        ]
+        self.validate_error_response(expected, response, 404)
+
+    def test_broker_accounts_get_account_successful(self):
+        payload = {
+            "provider": "testprovider",
+            "accountId": "123456A"
+        }
+        requests.post("http://localhost:8080/v1/accounts", json=payload)
+        response = requests.get("http://localhost:8080/v1/accounts/1")
+        expected = {
+            "id": 1,
+            "provider": "testprovider",
+            "accountId": "123456A",
+            "creationDate": date.today().strftime("%Y-%m-%d")
+        }
+        self.validate_object_response(expected, response, 200)
+
+    def test_broker_accounts_get_account_not_found(self):
+        payload = {
+            "provider": "provider",
+            "accountId": "97865A"
+        }
+        response = requests.get("http://localhost:8080/v1/accounts/10", json=payload)
+        expected = [
+            "Broker account with id: 10 not found"
+        ]
+        self.validate_error_response(expected, response, 404)
+
+    def test_broker_accounts_get_account_page_successful(self):
+        payload = {
+            "provider": "provider",
+            "accountId": "97865A"
+        }
+        requests.post("http://localhost:8080/v1/accounts", json=payload)
+        payload = {
+            "provider": "provider2",
+            "accountId": "HGS321"
+        }
+        requests.post("http://localhost:8080/v1/accounts", json=payload)
+        payload = {
+            "page": 0,
+            "size": 2,
+            "sorted": ["id"]
+        }
+        response = requests.get("http://localhost:8080/v1/accounts", json=payload)
+        expected = [
+            {
+                "id": 1,
+                "provider": "provider",
+                "accountId": "97865A",
+                "creationDate": date.today().strftime("%Y-%m-%d")
+            },
+            {
+                "id": 2,
+                "provider": "provider2",
+                "accountId": "HGS321",
+                "creationDate": date.today().strftime("%Y-%m-%d")
+            }
+        ]
+        self.validate_object_response(expected, response, 200)
+
+    def test_broker_account_get_account_page_empty(self):
+        payload = {
+            "page": 0,
+            "size": 2,
+            "sorted": ["id"]
+        }
+        response = requests.get("http://localhost:8080/v1/accounts", params=payload)
+        expected = []
+        self.validate_object_response(expected, response, 200)
+
+    def test_broker_account_get_account_page_not_found(self):
+        payload = {
+          "page": 10,
+          "size": 2,
+          "sort": ["id"]
+        }
+        response = requests.get("http://localhost:8080/v1/accounts", params=payload)
+        expected = ["There is no page with number 10 for this resource. Max page index with size 2 is 0"]
+        self.validate_error_response(expected, response, 404)
+
+
+

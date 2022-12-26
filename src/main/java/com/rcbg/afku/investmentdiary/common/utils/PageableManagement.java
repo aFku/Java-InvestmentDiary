@@ -18,7 +18,10 @@ public class PageableManagement {
     }
 
     public static <T> void validateIfPageOutOfRange(Page<T> page){
-        int givenIndex = page.getNumber(), maxIndex = page.getTotalPages() - 1;
+        int givenIndex = page.getNumber();
+        int maxIndex;
+        if (page.getTotalPages() > 0)
+        { maxIndex = page.getTotalPages() - 1;} else { maxIndex = 0;}
         if (givenIndex > maxIndex){
             throw new PaginationPageNotFoundException(String.format("There is no page with number %d for this resource. Max page index with size %d is %d", givenIndex, page.getSize(), maxIndex));
         }
