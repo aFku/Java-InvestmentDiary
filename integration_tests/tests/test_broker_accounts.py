@@ -224,6 +224,3 @@ class TestBrokerAccounts(InvestmentDiaryBaseTestClass):
         response = requests.get(self.accounts_url(), params=payload)
         expected = ["There is no page with number 10 for this resource. Max page index with size 2 is 0"]
         self.validate_error_response(expected, response, 404)
-
-
-

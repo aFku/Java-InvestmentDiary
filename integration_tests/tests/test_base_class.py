@@ -3,6 +3,7 @@ import json
 import requests
 import sqlalchemy
 import contextlib
+import os
 
 class InvestmentDiaryBaseTestClass(unittest.TestCase):
 
@@ -12,13 +13,18 @@ class InvestmentDiaryBaseTestClass(unittest.TestCase):
         self.engine = self.build_engine()
         self.db_connection = self.engine.connect()
         self.tables = sqlalchemy.inspect(self.engine).get_table_names()
+        self.app_endpoint = f"{self.APP_location}:{self.APP_port}/{self.API_version}"
 
     def setup_envs(self):
-        self.DB_password = "billionaire"
-        self.DB_user = "investor"
-        self.DB_url = "localhost:3306"
-        self.DB_name = "investment"
-        self.DB_vendor = "mysql"
+        self.DB_password = os.getenv("DB_PASSWORD")
+        self.DB_user = os.getenv("DB_USER")
+        self.DB_url = os.getenv("DB_HOST") + ":" + os.getenv("DB_PORT")
+        self.DB_name = os.getenv("DB_NAME")
+        self.DB_vendor = os.getenv("DB_VENDOR")
+
+        self.APP_location = os.getenv("APP_LOCATION")
+        self.APP_port = os.getenv("APP_PORT")
+        self.API_version = os.getenv("API_VERSION")
 
     def build_engine(self):
         creation_cmd = f"{self.DB_vendor}://{self.DB_user}:{self.DB_password}@{self.DB_url}/{self.DB_name}"
@@ -56,14 +62,14 @@ class InvestmentDiaryBaseTestClass(unittest.TestCase):
         response_content = json.loads(response.text)["messages"]
         self.compare_lists(payload, response_content)
     def operations_url(self, suffix=None):
-        url = "http://localhost:8080/v1/operations"
+        url = f"http://{self.app_endpoint}/operations"
         url += f"/{suffix}" if suffix else ""
         return url
     def subjects_url(self, suffix=None):
-        url = "http://localhost:8080/v1/subjects"
+        url = f"http://{self.app_endpoint}/subjects"
         url += f"/{suffix}" if suffix else ""
         return url
     def accounts_url(self, suffix=None):
-        url = "http://localhost:8080/v1/accounts"
+        url = f"http://{self.app_endpoint}/accounts"
         url += f"/{suffix}" if suffix else ""
         return url
