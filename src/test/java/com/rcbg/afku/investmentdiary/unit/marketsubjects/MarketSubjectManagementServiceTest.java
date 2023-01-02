@@ -1,8 +1,5 @@
 package com.rcbg.afku.investmentdiary.unit.marketsubjects;
 
-import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.BrokerAccountDTO;
-import com.rcbg.afku.investmentdiary.brokeraccounts.entities.BrokerAccount;
-import com.rcbg.afku.investmentdiary.brokeraccounts.exceptions.BrokerAccountNotFoundException;
 import com.rcbg.afku.investmentdiary.marketsubjects.datatransferobjects.MarketSubjectDTO;
 import com.rcbg.afku.investmentdiary.marketsubjects.entities.MarketSubject;
 import com.rcbg.afku.investmentdiary.marketsubjects.exceptions.MarketSubjectNotFound;

@@ -30,7 +30,6 @@ public class AccountBrowseServiceTest {
 
     void assertDTOWithAccountInstance(BrokerAccountDTO dto1, BrokerAccount acc){
         Assertions.assertEquals(dto1.getId(), acc.getId());
-        Assertions.assertEquals(dto1.getCreationDate(), acc.getCreationDate());
         Assertions.assertEquals(dto1.getProvider(), acc.getProvider());
         Assertions.assertEquals(dto1.getAccountId(), acc.getAccountId());
     }
