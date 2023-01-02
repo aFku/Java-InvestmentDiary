@@ -30,21 +30,21 @@ public class BrokerAccountsController {
     @PostMapping
     ResponseEntity<CommonSingleModelResponse<BrokerAccountDTO>> createBrokerAccount(HttpServletRequest request, @RequestBody BrokerAccountDTO requestDto){
         BrokerAccountDTO responseDto = managementService.createBrokerAccount(requestDto);
-        CommonSingleModelResponse<BrokerAccountDTO> response = new CommonSingleModelResponse<BrokerAccountDTO>(200, request.getRequestURI(), "object",  responseDto);
+        CommonSingleModelResponse<BrokerAccountDTO> response = new CommonSingleModelResponse<>(200, request.getRequestURI(), "object",  responseDto);
         return new ResponseEntity<>(response, new HttpHeaders(), 200);
     }
 
     @GetMapping(value = "/{id}")
     ResponseEntity<CommonSingleModelResponse<BrokerAccountDTO>> getBrokerAccountById(HttpServletRequest request, @PathVariable int id){
         BrokerAccountDTO responseDto = browseService.findOneBrokerAccountById(id);
-        CommonSingleModelResponse<BrokerAccountDTO> response = new CommonSingleModelResponse<BrokerAccountDTO>(200, request.getRequestURI(), "object",  responseDto);
+        CommonSingleModelResponse<BrokerAccountDTO> response = new CommonSingleModelResponse<>(200, request.getRequestURI(), "object",  responseDto);
         return new ResponseEntity<>(response, new HttpHeaders(), 200);
     }
 
     @PutMapping(value = "/{id}")
     ResponseEntity<CommonSingleModelResponse<BrokerAccountDTO>> updateBrokerAccountById(HttpServletRequest request, @PathVariable int id, @RequestBody BrokerAccountDTO requestDto){
         BrokerAccountDTO responseDto = managementService.updateAccount(id, requestDto);
-        CommonSingleModelResponse<BrokerAccountDTO> response = new CommonSingleModelResponse<BrokerAccountDTO>(200, request.getRequestURI(), "object",  responseDto);
+        CommonSingleModelResponse<BrokerAccountDTO> response = new CommonSingleModelResponse<>(200, request.getRequestURI(), "object",  responseDto);
         return new ResponseEntity<>(response, new HttpHeaders(), 200);
     }
 

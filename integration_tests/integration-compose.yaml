@@ -1,0 +1,76 @@
+version: "3.9"
+name: "investment-integration-tests"
+services:
+  db_integration:
+    image: mysql:latest
+    container_name: ${DB_HOST}
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_DATABASE=${DB_NAME}
+    networks:
+      - db_conn
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3306"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  investment_app:
+    image: investment-app:${APP_VERSION}
+    container_name: ${APP_LOCATION}
+    ports:
+      - "8080:8080"
+    networks:
+      - db_conn
+      - api_client_conn
+    environment:
+      - DB_DRIVER=${DB_DRIVER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_USER=${DB_USER}
+      - DB_URL=jdbc:${DB_VENDOR}://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      - DB_DIALECT=${DB_DIALECT}
+      - DB_DDL=${DB_DDL}
+      - API_VERSION=${API_VERSION}
+#    volumes:
+#      - <path/to/InvestmentDiary.jar on local machine>:/app/InvestmentDiary.jar          # fill path, remove # and rerun script after each build for local development
+    depends_on:
+      db_integration:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api-docs.html"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  integration_tests:
+    container_name: "integration-tests"
+    image: integration-tests:${TESTS_VERSION}
+    networks:
+      - db_conn
+      - api_client_conn
+    depends_on:
+      investment_app:
+        condition: service_healthy
+      db_integration:
+        condition: service_healthy
+    environment:
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_USER=${DB_USER}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_VENDOR=${DB_VENDOR}
+      - APP_LOCATION=${APP_LOCATION}
+      - APP_PORT=8080
+      - API_VERSION=${API_VERSION}
+#    volumes:
+#      - <path/to/directory/with/tests>:/app       # fill path, remove # and rerun script after each changes in tests for local development
+networks:
+  db_conn:
+    internal: true
+    name: "db_conn"
+  api_client_conn:
+    internal: true
+    name: "api_client_conn"

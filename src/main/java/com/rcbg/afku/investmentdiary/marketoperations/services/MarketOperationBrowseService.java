@@ -22,12 +22,12 @@ public class MarketOperationBrowseService {
         this.repo = repo;
     }
 
-    public MarketOperation getStockMarketTransactionDomainObjectById(long id){
+    public MarketOperation getStockMarketOperationDomainObjectById(long id){
         return repo.findById(id).orElseThrow( () -> new MarketOperationNotFoundException("Market operation with id: " + id + " not found"));
     }
 
     public MarketOperationDTO findOneMarketOperationById(long id){
-        return MarketOperationMapper.INSTANCE.toDTO(getStockMarketTransactionDomainObjectById(id));
+        return MarketOperationMapper.INSTANCE.toDTO(getStockMarketOperationDomainObjectById(id));
     }
 
     public CommonPaginationDTO findAllMarketOperations(Pageable pageable){

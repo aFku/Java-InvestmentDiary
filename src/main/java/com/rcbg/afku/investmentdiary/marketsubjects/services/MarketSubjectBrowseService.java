@@ -23,7 +23,7 @@ public class MarketSubjectBrowseService {
     }
 
     public MarketSubject getMarketSubjectDomainObjectById(int id){
-        return repo.findById(id).orElseThrow( () -> new MarketSubjectNotFound("Market Subject with id: " + id + " not found"));
+        return repo.findById(id).orElseThrow( () -> new MarketSubjectNotFound("Market subject with id: " + id + " not found"));
     }
 
     public MarketSubjectDTO getMarketSubjectById(int id){
