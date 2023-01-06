@@ -1,3 +1,5 @@
+import json
+
 import requests
 import sqlalchemy
 import contextlib
@@ -13,6 +15,12 @@ class TestBrokerAccounts(InvestmentDiaryBaseTestClass):
 
     def setUp(self):
         self.clear_db()
+
+    def create_broker_accounts_for_search_test(self):
+        with open('brokeraccounts.json', 'r') as f:
+            data = json.load(f)
+            for payload in data:
+                response = requests.post(self.accounts_url(), json=payload)
 
     def test_broker_account_creation_success(self):
         payload = {
@@ -224,3 +232,36 @@ class TestBrokerAccounts(InvestmentDiaryBaseTestClass):
         response = requests.get(self.accounts_url(), params=payload)
         expected = ["There is no page with number 10 for this resource. Max page index with size 2 is 0"]
         self.validate_error_response(expected, response, 404)
+
+    def test_broker_account_get_account_page_search_equality(self):
+        self.create_broker_accounts_for_search_test()
+        response = requests.get(self.accounts_url() + "?search=accountId:01GNWQQ7XP738GJDVSQDVRHZK5")
+        response_parsed = json.loads(response.text)["data"]
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response_parsed[0]["accountId"], "01GNWQQ7XP738GJDVSQDVRHZK5")
+        self.assertEqual(response_parsed[0]["provider"], "Schumm Upton and Turcotte")
+
+    def test_broker_account_get_account_page_search_negation(self):
+        self.create_broker_accounts_for_search_test()
+        params = {
+            "page": 0,
+            "size": 50,
+            "sort": ["id"],
+        }
+        response = requests.get(self.accounts_url() + "?search=accountId!01GNWQQ7XWZGBDVR0VCGVAPHHF", params=params)
+        response_parsed = json.loads(response.text)["data"]
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response_parsed), 29)
+
+    def test_broker_account_get_account_page_search_like(self):
+        self.create_broker_accounts_for_search_test()
+        params = {
+            "page": 0,
+            "size": 50,
+            "sort": ["id"],
+        }
+        response = requests.get(self.accounts_url() + "?search=provider~Inc", params=params)
+        response_parsed = json.loads(response.text)["data"]
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response_parsed), 2)
+

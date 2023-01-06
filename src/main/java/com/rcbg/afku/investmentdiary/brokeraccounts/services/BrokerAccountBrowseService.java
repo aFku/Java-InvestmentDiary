@@ -6,10 +6,12 @@ import com.rcbg.afku.investmentdiary.brokeraccounts.entities.BrokerAccount;
 import com.rcbg.afku.investmentdiary.brokeraccounts.exceptions.BrokerAccountNotFoundException;
 import com.rcbg.afku.investmentdiary.brokeraccounts.repositories.BrokerAccountRepository;
 import com.rcbg.afku.investmentdiary.common.datatransferobjects.CommonPaginationDTO;
+import com.rcbg.afku.investmentdiary.common.search.SpecificationImpl;
 import com.rcbg.afku.investmentdiary.common.utils.PageableManagement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,5 +35,10 @@ public class BrokerAccountBrowseService {
 
     public BrokerAccount getBrokerAccountDomainObjectById(int id){
         return repo.findById(id).orElseThrow( () -> new BrokerAccountNotFoundException("Broker account with id: " + id + " not found"));
+    }
+
+    public CommonPaginationDTO findAllBrokerAccountsBySpecification(Pageable pageable, Specification<BrokerAccount> spec){
+        Page<BrokerAccountDTO> accounts = repo.findAll(spec, pageable).map(BrokerAccountMapper.INSTANCE::toDTO);
+        return PageableManagement.createPaginationDTO(accounts);
     }
 }
