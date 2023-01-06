@@ -1,6 +1,7 @@
 package com.rcbg.afku.investmentdiary.common.search;
 
 import com.rcbg.afku.investmentdiary.brokeraccounts.services.BrokerAccountManagementService;
+import com.rcbg.afku.investmentdiary.marketsubjects.services.MarketSubjectManagementService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.domain.Specification;
@@ -12,10 +13,20 @@ public class SpecificationsBuilder<T>{
 
     private final List<SearchCriteria> params = new ArrayList<>();
 
-    public  SpecificationsBuilder<T> with(String key, String operation, Object value){
+    public  SpecificationsBuilder<T> with(String key, String operation, String value){
         SearchOperations op = SearchOperations.getNotComplexOperationBySign(operation.charAt(0));
         if (op != null){
-            params.add(new SearchCriteria(key, op, value));
+            if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
+                boolean boolValue = Boolean.parseBoolean(value);
+                params.add(new SearchCriteria(key, op, boolValue));
+            } else {
+                try {
+                    Integer intValue = Integer.parseInt(value);
+                    params.add(new SearchCriteria(key, op, intValue));
+                } catch (NumberFormatException e) {
+                    params.add(new SearchCriteria(key, op, value));
+                }
+            }
         }
         return this;
     }
@@ -24,7 +35,6 @@ public class SpecificationsBuilder<T>{
         if(params.size() == 0){ return null;}
 
         Specification<T> result = new SpecificationImpl<>(params.get(0));
-
         for(int i = 1; i < params.size(); i++){
             result = Specification.where(result).and(new SpecificationImpl<>(params.get(i)));
         }

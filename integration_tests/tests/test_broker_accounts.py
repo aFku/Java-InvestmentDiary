@@ -20,7 +20,7 @@ class TestBrokerAccounts(InvestmentDiaryBaseTestClass):
         with open('brokeraccounts.json', 'r') as f:
             data = json.load(f)
             for payload in data:
-                response = requests.post(self.accounts_url(), json=payload)
+                requests.post(self.accounts_url(), json=payload)
 
     def test_broker_account_creation_success(self):
         payload = {

@@ -1,5 +1,6 @@
 package com.rcbg.afku.investmentdiary.marketsubjects.services;
 
+import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.BrokerAccountMapper;
 import com.rcbg.afku.investmentdiary.common.datatransferobjects.CommonPaginationDTO;
 import com.rcbg.afku.investmentdiary.common.utils.PageableManagement;
 import com.rcbg.afku.investmentdiary.marketsubjects.datatransferobjects.MarketSubjectDTO;
@@ -10,6 +11,7 @@ import com.rcbg.afku.investmentdiary.marketsubjects.repositories.MarketSubjectRe
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,6 +35,11 @@ public class MarketSubjectBrowseService {
 
     public CommonPaginationDTO getAllMarketSubjects(Pageable pageable){
         Page<MarketSubjectDTO> subjects = repo.findAll(pageable).map(MarketSubjectMapper.INSTANCE::toDTO);
+        return PageableManagement.createPaginationDTO(subjects);
+    }
+
+    public CommonPaginationDTO getMarketSubjectsBySpecification(Pageable pageable, Specification<MarketSubject> spec){
+        Page<MarketSubjectDTO> subjects = repo.findAll(spec, pageable).map(MarketSubjectMapper.INSTANCE::toDTO);
         return PageableManagement.createPaginationDTO(subjects);
     }
 }

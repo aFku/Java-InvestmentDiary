@@ -1,6 +1,5 @@
 import requests
-import sqlalchemy
-import contextlib
+import json
 
 from test_base_class import InvestmentDiaryBaseTestClass
 
@@ -12,6 +11,12 @@ class TestMarketSubjects(InvestmentDiaryBaseTestClass):
 
     def setUp(self):
         self.clear_db()
+
+    def create_market_subjects_for_search_test(self):
+        with open('marketsubjects.json', 'r') as f:
+            data = json.load(f)
+            for payload in data:
+                requests.post(self.subjects_url(), json=payload)
 
     def test_market_subject_creation_success(self):
         payload = {
@@ -237,5 +242,41 @@ class TestMarketSubjects(InvestmentDiaryBaseTestClass):
         expected = ["There is no page with number 10 for this resource. Max page index with size 2 is 0"]
         self.validate_error_response(expected, response, 404)
 
+    def test_market_subject_get_search_equality(self):
+        self.create_market_subjects_for_search_test()
+        payload = {
+          "page": 0,
+          "size": 45,
+          "sort": ["id"]
+        }
+        query = "?search=hasDividend:true"
+        response = requests.get(self.subjects_url() + query, params=payload)
+        response_parsed = json.loads(response.text)["data"]
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response_parsed), 17)
 
+    def test_market_subject_get_search_negation(self):
+        self.create_market_subjects_for_search_test()
+        payload = {
+          "page": 0,
+          "size": 45,
+          "sort": ["id"]
+        }
+        query = "?search=hasDividend!true"
+        response = requests.get(self.subjects_url() + query, params=payload)
+        response_parsed = json.loads(response.text)["data"]
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response_parsed), 28)
 
+    def test_market_subject_get_search_like(self):
+        self.create_market_subjects_for_search_test()
+        payload = {
+          "page": 0,
+          "size": 45,
+          "sort": ["id"]
+        }
+        query = "?search=name~oo"
+        response = requests.get(self.subjects_url() + query, params=payload)
+        response_parsed = json.loads(response.text)["data"]
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response_parsed), 7)
