@@ -1,0 +1,362 @@
+[
+    {
+        "operationDate": "2022-05-04",
+        "pricePerOne": 14.79,
+        "volume": 38,
+        "operationType": "SELL",
+        "subjectId": 2,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-12-11",
+        "pricePerOne": 59.87,
+        "volume": 63,
+        "operationType": "BUY",
+        "subjectId": 1,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-07-26",
+        "pricePerOne": 60.36,
+        "volume": 18,
+        "operationType": "BUY",
+        "subjectId": 2,
+        "accountId": 2
+    },
+    {
+        "operationDate": "2022-07-19",
+        "pricePerOne": 84.66,
+        "volume": 40,
+        "operationType": "SELL",
+        "subjectId": 3,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-10-09",
+        "pricePerOne": 16.07,
+        "volume": 48,
+        "operationType": "SELL",
+        "subjectId": 2,
+        "accountId": 3
+    },
+    {
+        "operationDate": "2022-07-22",
+        "pricePerOne": 96.6,
+        "volume": 93,
+        "operationType": "BUY",
+        "subjectId": 1,
+        "accountId": 2
+    },
+    {
+        "operationDate": "2022-12-09",
+        "pricePerOne": 61.88,
+        "volume": 74,
+        "operationType": "SELL",
+        "subjectId": 3,
+        "accountId": 3
+    },
+    {
+        "operationDate": "2022-03-21",
+        "pricePerOne": 50.76,
+        "volume": 37,
+        "operationType": "SELL",
+        "subjectId": 2,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-02-27",
+        "pricePerOne": 74.73,
+        "volume": 27,
+        "operationType": "SELL",
+        "subjectId": 3,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-01-23",
+        "pricePerOne": 33.35,
+        "volume": 16,
+        "operationType": "SELL",
+        "subjectId": 3,
+        "accountId": 2
+    },
+    {
+        "operationDate": "2022-08-10",
+        "pricePerOne": 97.58,
+        "volume": 14,
+        "operationType": "BUY",
+        "subjectId": 2,
+        "accountId": 3
+    },
+    {
+        "operationDate": "2022-11-02",
+        "pricePerOne": 87.87,
+        "volume": 19,
+        "operationType": "BUY",
+        "subjectId": 3,
+        "accountId": 3
+    },
+    {
+        "operationDate": "2022-02-18",
+        "pricePerOne": 27.55,
+        "volume": 40,
+        "operationType": "BUY",
+        "subjectId": 3,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-04-04",
+        "pricePerOne": 45.92,
+        "volume": 65,
+        "operationType": "BUY",
+        "subjectId": 1,
+        "accountId": 2
+    },
+    {
+        "operationDate": "2022-02-23",
+        "pricePerOne": 12.98,
+        "volume": 68,
+        "operationType": "BUY",
+        "subjectId": 3,
+        "accountId": 2
+    },
+    {
+        "operationDate": "2022-10-06",
+        "pricePerOne": 24.3,
+        "volume": 99,
+        "operationType": "SELL",
+        "subjectId": 3,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-03-23",
+        "pricePerOne": 4.09,
+        "volume": 65,
+        "operationType": "BUY",
+        "subjectId": 2,
+        "accountId": 2
+    },
+    {
+        "operationDate": "2022-09-03",
+        "pricePerOne": 20.96,
+        "volume": 3,
+        "operationType": "SELL",
+        "subjectId": 3,
+        "accountId": 2
+    },
+    {
+        "operationDate": "2022-07-31",
+        "pricePerOne": 43.27,
+        "volume": 62,
+        "operationType": "BUY",
+        "subjectId": 2,
+        "accountId": 2
+    },
+    {
+        "operationDate": "2022-01-07",
+        "pricePerOne": 7.11,
+        "volume": 100,
+        "operationType": "SELL",
+        "subjectId": 2,
+        "accountId": 3
+    },
+    {
+        "operationDate": "2022-07-08",
+        "pricePerOne": 90.25,
+        "volume": 83,
+        "operationType": "BUY",
+        "subjectId": 2,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-05-15",
+        "pricePerOne": 65.68,
+        "volume": 14,
+        "operationType": "BUY",
+        "subjectId": 1,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-10-24",
+        "pricePerOne": 77.21,
+        "volume": 72,
+        "operationType": "BUY",
+        "subjectId": 3,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-05-13",
+        "pricePerOne": 91.6,
+        "volume": 71,
+        "operationType": "SELL",
+        "subjectId": 3,
+        "accountId": 3
+    },
+    {
+        "operationDate": "2022-01-07",
+        "pricePerOne": 47.97,
+        "volume": 68,
+        "operationType": "BUY",
+        "subjectId": 2,
+        "accountId": 3
+    },
+    {
+        "operationDate": "2022-02-07",
+        "pricePerOne": 81.32,
+        "volume": 55,
+        "operationType": "BUY",
+        "subjectId": 3,
+        "accountId": 2
+    },
+    {
+        "operationDate": "2022-02-03",
+        "pricePerOne": 81.73,
+        "volume": 20,
+        "operationType": "BUY",
+        "subjectId": 2,
+        "accountId": 2
+    },
+    {
+        "operationDate": "2022-02-25",
+        "pricePerOne": 4.04,
+        "volume": 72,
+        "operationType": "SELL",
+        "subjectId": 2,
+        "accountId": 2
+    },
+    {
+        "operationDate": "2022-03-13",
+        "pricePerOne": 19.33,
+        "volume": 42,
+        "operationType": "SELL",
+        "subjectId": 3,
+        "accountId": 3
+    },
+    {
+        "operationDate": "2022-08-25",
+        "pricePerOne": 34.7,
+        "volume": 60,
+        "operationType": "BUY",
+        "subjectId": 3,
+        "accountId": 2
+    },
+    {
+        "operationDate": "2022-07-04",
+        "pricePerOne": 92.27,
+        "volume": 29,
+        "operationType": "SELL",
+        "subjectId": 1,
+        "accountId": 2
+    },
+    {
+        "operationDate": "2022-08-12",
+        "pricePerOne": 47.02,
+        "volume": 27,
+        "operationType": "BUY",
+        "subjectId": 3,
+        "accountId": 2
+    },
+    {
+        "operationDate": "2022-06-04",
+        "pricePerOne": 7.0,
+        "volume": 52,
+        "operationType": "BUY",
+        "subjectId": 3,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-09-02",
+        "pricePerOne": 1.74,
+        "volume": 8,
+        "operationType": "SELL",
+        "subjectId": 1,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-07-30",
+        "pricePerOne": 81.97,
+        "volume": 24,
+        "operationType": "BUY",
+        "subjectId": 3,
+        "accountId": 3
+    },
+    {
+        "operationDate": "2022-10-25",
+        "pricePerOne": 35.46,
+        "volume": 5,
+        "operationType": "SELL",
+        "subjectId": 1,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-05-08",
+        "pricePerOne": 37.1,
+        "volume": 57,
+        "operationType": "BUY",
+        "subjectId": 1,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-03-13",
+        "pricePerOne": 47.17,
+        "volume": 13,
+        "operationType": "BUY",
+        "subjectId": 1,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-03-28",
+        "pricePerOne": 93.33,
+        "volume": 78,
+        "operationType": "SELL",
+        "subjectId": 2,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-05-30",
+        "pricePerOne": 55.07,
+        "volume": 25,
+        "operationType": "BUY",
+        "subjectId": 2,
+        "accountId": 2
+    },
+    {
+        "operationDate": "2022-11-04",
+        "pricePerOne": 45.62,
+        "volume": 17,
+        "operationType": "BUY",
+        "subjectId": 2,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-01-14",
+        "pricePerOne": 73.57,
+        "volume": 98,
+        "operationType": "BUY",
+        "subjectId": 3,
+        "accountId": 2
+    },
+    {
+        "operationDate": "2022-07-23",
+        "pricePerOne": 36.27,
+        "volume": 94,
+        "operationType": "BUY",
+        "subjectId": 2,
+        "accountId": 2
+    },
+    {
+        "operationDate": "2022-06-16",
+        "pricePerOne": 77.53,
+        "volume": 63,
+        "operationType": "SELL",
+        "subjectId": 2,
+        "accountId": 1
+    },
+    {
+        "operationDate": "2022-04-25",
+        "pricePerOne": 33.14,
+        "volume": 1,
+        "operationType": "SELL",
+        "subjectId": 3,
+        "accountId": 3
+    }
+]
