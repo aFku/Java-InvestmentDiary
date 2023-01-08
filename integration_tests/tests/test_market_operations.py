@@ -1,5 +1,6 @@
 import requests
 from datetime import date, timedelta
+import json
 
 from test_base_class import InvestmentDiaryBaseTestClass
 
@@ -12,6 +13,20 @@ class TestMarketOperations(InvestmentDiaryBaseTestClass):
     def setUp(self):
         self.clear_db()
         self.prepare_related_objects()
+
+    def create_market_operations_for_search_test(self):
+        with open('brokeraccounts.json', 'r') as f:
+            data = json.load(f)
+            for account_index in range(3):
+                requests.post(self.accounts_url(), json=data[account_index])
+        with open('marketsubjects.json', 'r') as f:
+            data = json.load(f)
+            for subject_index in range(3):
+                requests.post(self.subjects_url(), json=data[subject_index])
+        with open('marketoperations.json', 'r') as f:
+            data = json.load(f)
+            for operation in data:
+                response = requests.post(self.operations_url(), json=operation)
 
     def prepare_related_objects(self):
         payload = {
@@ -190,6 +205,76 @@ class TestMarketOperations(InvestmentDiaryBaseTestClass):
         response = requests.get(self.operations_url(), params=payload)
         expected = ["There is no page with number 10 for this resource. Max page index with size 2 is 0"]
         self.validate_error_response(expected, response, 404)
+
+
+
+
+
+
+    def test_market_operation_get_search_equality(self):
+        self.create_market_operations_for_search_test()
+        payload = {
+          "page": 0,
+          "size": 45,
+          "sort": ["id"]
+        }
+        query = "?search=brokerAccount:2"
+        response = requests.get(self.operations_url() + query, params=payload)
+        response_parsed = json.loads(response.text)["data"]
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response_parsed), 17)
+
+    def test_market_operation_get_search_equality_operation_type(self):
+        self.create_market_operations_for_search_test()
+        payload = {
+          "page": 0,
+          "size": 45,
+          "sort": ["id"]
+        }
+        query = "?search=operationType:SELL"
+        response = requests.get(self.operations_url() + query, params=payload)
+        response_parsed = json.loads(response.text)["data"]
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response_parsed), 19)
+
+    def test_market_operation_get_search_negation(self):
+        self.create_market_operations_for_search_test()
+        payload = {
+          "page": 0,
+          "size": 45,
+          "sort": ["id"]
+        }
+        query = "?search=marketSubject!3"
+        response = requests.get(self.operations_url() + query, params=payload)
+        response_parsed = json.loads(response.text)["data"]
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response_parsed), 26)
+
+    def test_market_operation_get_search_greater_than(self):
+        self.create_market_operations_for_search_test()
+        payload = {
+          "page": 0,
+          "size": 45,
+          "sort": ["id"]
+        }
+        query = "?search=volume>50"
+        response = requests.get(self.operations_url() + query, params=payload)
+        response_parsed = json.loads(response.text)["data"]
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response_parsed), 22)
+
+    def test_market_operation_get_search_lesser_than(self):
+        self.create_market_operations_for_search_test()
+        payload = {
+          "page": 0,
+          "size": 45,
+          "sort": ["id"]
+        }
+        query = "?search=pricePerOne<50"
+        response = requests.get(self.operations_url() + query, params=payload)
+        response_parsed = json.loads(response.text)["data"]
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response_parsed), 24)
 
 
 

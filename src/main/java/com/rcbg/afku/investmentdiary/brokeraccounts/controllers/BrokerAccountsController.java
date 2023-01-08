@@ -1,19 +1,28 @@
 package com.rcbg.afku.investmentdiary.brokeraccounts.controllers;
 
 import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.BrokerAccountDTO;
+import com.rcbg.afku.investmentdiary.brokeraccounts.entities.BrokerAccount;
 import com.rcbg.afku.investmentdiary.brokeraccounts.services.BrokerAccountBrowseService;
 import com.rcbg.afku.investmentdiary.brokeraccounts.services.BrokerAccountManagementService;
 import com.rcbg.afku.investmentdiary.common.datatransferobjects.CommonPaginationDTO;
 import com.rcbg.afku.investmentdiary.common.responses.CommonModelPaginationResponse;
 import com.rcbg.afku.investmentdiary.common.responses.CommonResourceDeletedResponse;
 import com.rcbg.afku.investmentdiary.common.responses.CommonSingleModelResponse;
+import com.rcbg.afku.investmentdiary.common.search.SearchOperations;
+import com.rcbg.afku.investmentdiary.common.search.SpecificationsBuilder;
 import com.rcbg.afku.investmentdiary.common.statuses.ResourceDeletedStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
+import java.util.StringJoiner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/${api.version}/accounts")
@@ -57,8 +66,21 @@ public class BrokerAccountsController {
     }
 
     @GetMapping
-    ResponseEntity<CommonModelPaginationResponse> getAllBrokerAccounts(HttpServletRequest request, Pageable pageable){
-        CommonPaginationDTO paginationDTO = browseService.findAllBrokerAccounts(pageable);
+    ResponseEntity<CommonModelPaginationResponse> getAllBrokerAccounts(HttpServletRequest request, Pageable pageable, @RequestParam(value = "search", required = false) String search){
+        CommonPaginationDTO paginationDTO;
+        if(search != null){
+            SpecificationsBuilder<BrokerAccount> builder = new SpecificationsBuilder<>();
+            Pattern pattern = Pattern.compile("(\\w+?)(:|<|>|!|~)(\\w+?),");
+            Matcher matcher = pattern.matcher(search + ",");
+            while (matcher.find()) {
+                builder.with(matcher.group(1),
+                        matcher.group(2), matcher.group(3));
+            }
+            Specification<BrokerAccount> spec = builder.build();
+            paginationDTO = browseService.findAllBrokerAccountsBySpecification(pageable, spec);
+        } else {
+            paginationDTO = browseService.findAllBrokerAccounts(pageable);
+        }
         CommonModelPaginationResponse response = new CommonModelPaginationResponse(200, request.getRequestURI(), "list", paginationDTO);
         return new ResponseEntity<>(response, new HttpHeaders(), 200);
     }

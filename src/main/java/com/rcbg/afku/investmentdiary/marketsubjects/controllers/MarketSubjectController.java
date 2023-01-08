@@ -3,17 +3,22 @@ import com.rcbg.afku.investmentdiary.common.datatransferobjects.CommonPagination
 import com.rcbg.afku.investmentdiary.common.responses.CommonModelPaginationResponse;
 import com.rcbg.afku.investmentdiary.common.responses.CommonResourceDeletedResponse;
 import com.rcbg.afku.investmentdiary.common.responses.CommonSingleModelResponse;
+import com.rcbg.afku.investmentdiary.common.search.SpecificationsBuilder;
 import com.rcbg.afku.investmentdiary.common.statuses.ResourceDeletedStatus;
 import com.rcbg.afku.investmentdiary.marketsubjects.datatransferobjects.MarketSubjectDTO;
+import com.rcbg.afku.investmentdiary.marketsubjects.entities.MarketSubject;
 import com.rcbg.afku.investmentdiary.marketsubjects.services.MarketSubjectBrowseService;
 import com.rcbg.afku.investmentdiary.marketsubjects.services.MarketSubjectManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/${api.version}/subjects")
@@ -36,8 +41,20 @@ public class MarketSubjectController {
     }
 
     @GetMapping
-    ResponseEntity<CommonModelPaginationResponse> getAllMarketSubjects(HttpServletRequest request, Pageable pageable){
-        CommonPaginationDTO paginationDTO = browseService.getAllMarketSubjects(pageable);
+    ResponseEntity<CommonModelPaginationResponse> getAllMarketSubjects(HttpServletRequest request, Pageable pageable, @RequestParam(value = "search", required = false) String search){
+        CommonPaginationDTO paginationDTO;
+        if(search != null) {
+            SpecificationsBuilder<MarketSubject> builder = new SpecificationsBuilder<>();
+            Pattern pattern = Pattern.compile("(\\w+?)(:|<|>|!|~)(\\w+?),");
+            Matcher matcher = pattern.matcher(search + ",");
+            while (matcher.find()){
+                builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
+            }
+            Specification<MarketSubject> spec = builder.build();
+            paginationDTO = browseService.getMarketSubjectsBySpecification(pageable, spec);
+        } else {
+            paginationDTO = browseService.getAllMarketSubjects(pageable);
+        }
         CommonModelPaginationResponse response = new CommonModelPaginationResponse(200, request.getRequestURI(), "list", paginationDTO);
         return new ResponseEntity<>(response, new HttpHeaders(), 200);
     }
