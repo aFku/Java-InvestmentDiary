@@ -41,7 +41,7 @@ public class MarketOperationManagementService {
         BrokerAccount brokerAccount = brokerAccountBrowseService.getBrokerAccountDomainObjectById(dto.getAccountId());
         MarketSubject subject = marketSubjectBrowseService.getMarketSubjectDomainObjectById(dto.getSubjectId());
         MarketOperation transaction = MarketOperationMapper.INSTANCE.toEntity(dto, brokerAccount, subject);
-        SubjectToAccountAction relationAction = checkRelationBetweenAccountAndSubject(brokerAccount, subject, dto);
+        SubjectToAccountAction relationAction = checkRelationBetweenAccountAndSubject(brokerAccount.getId(), subject.getId(), dto);
         repo.save(transaction);
         MarketOperationDTO newDto = MarketOperationMapper.INSTANCE.toDTO(transaction);
         logger.info("Created transaction " + newDto);
@@ -61,8 +61,8 @@ public class MarketOperationManagementService {
         logger.info("Market operation with id: " + id + " deleted");
     }
 
-    private SubjectToAccountAction checkRelationBetweenAccountAndSubject(BrokerAccount account, MarketSubject subject, MarketOperationDTO operationDTO){
-        int ownedVolume = repo.calculateNumberOfVolumesForAccount(account, subject);
+    private SubjectToAccountAction checkRelationBetweenAccountAndSubject(int accountId, int subjectId, MarketOperationDTO operationDTO){
+        int ownedVolume = repo.calculateNumberOfVolumesForAccount(accountId, subjectId);
         switch (operationDTO.getOperationType()){
             case "BUY":
                 if(ownedVolume > 0) { return SubjectToAccountAction.NONE; }
