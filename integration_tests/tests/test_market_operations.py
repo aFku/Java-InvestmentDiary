@@ -275,6 +275,3 @@ class TestMarketOperations(InvestmentDiaryBaseTestClass):
         response_parsed = json.loads(response.text)["data"]
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response_parsed), 24)
-
-
-

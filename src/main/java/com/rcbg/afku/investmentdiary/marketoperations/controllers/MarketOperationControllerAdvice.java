@@ -4,6 +4,7 @@ import com.rcbg.afku.investmentdiary.common.controllers.BaseControllerAdvice;
 import com.rcbg.afku.investmentdiary.common.responses.BaseApiErrorResponse;
 import com.rcbg.afku.investmentdiary.marketoperations.exceptions.MarketOperationBaseRuntimeException;
 import com.rcbg.afku.investmentdiary.marketoperations.exceptions.MarketOperationNotFoundException;
+import com.rcbg.afku.investmentdiary.marketoperations.exceptions.MarketOperationSellVolumeBeyondStateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -21,8 +22,15 @@ public class MarketOperationControllerAdvice extends BaseControllerAdvice {
 
     @ExceptionHandler(MarketOperationNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    ResponseEntity<BaseApiErrorResponse> handleTransactionNotFound(MarketOperationBaseRuntimeException ex, HttpServletRequest request){
+    ResponseEntity<BaseApiErrorResponse> handleOperationNotFound(MarketOperationBaseRuntimeException ex, HttpServletRequest request){
         BaseApiErrorResponse response = processErrorToResponse(logger, ex, request, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MarketOperationSellVolumeBeyondStateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ResponseEntity<BaseApiErrorResponse> handleOperationBadRequest(MarketOperationBaseRuntimeException ex, HttpServletRequest request){
+        BaseApiErrorResponse response = processErrorToResponse(logger, ex, request, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 }
