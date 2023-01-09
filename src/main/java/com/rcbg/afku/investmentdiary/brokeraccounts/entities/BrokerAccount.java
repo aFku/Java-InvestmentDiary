@@ -71,6 +71,14 @@ public class BrokerAccount {
         this.marketOperations.add(marketOperation);
     }
 
+    public void addOwnedMarketSubject(MarketSubject subject){
+        ownedMarketSubjects.add(subject);
+    }
+
+    public void removeOwnedMarketSubject(MarketSubject subject){
+        ownedMarketSubjects.remove(subject);
+    }
+
     public Set<MarketSubject> getOwnedMarketSubjects() {
         return ownedMarketSubjects;
     }
