@@ -4,6 +4,7 @@ import com.rcbg.afku.investmentdiary.brokeraccounts.services.BrokerAccountBrowse
 import com.rcbg.afku.investmentdiary.marketoperations.datatransferobjects.MarketOperationDTO;
 import com.rcbg.afku.investmentdiary.marketoperations.datatransferobjects.MarketOperationMapper;
 import com.rcbg.afku.investmentdiary.marketoperations.entities.MarketOperation;
+import com.rcbg.afku.investmentdiary.marketoperations.entities.OperationType;
 import com.rcbg.afku.investmentdiary.marketoperations.exceptions.MarketOperationNotFoundException;
 import com.rcbg.afku.investmentdiary.marketoperations.repositories.MarketOperationRepository;
 import com.rcbg.afku.investmentdiary.marketoperations.services.MarketOperationManagementService;
@@ -37,6 +38,7 @@ public class MarketOperationManagementServiceTest extends CommonUtilsMarketOpera
     @Test
     void testCreateOperationSuccessful(){
         MarketOperation operation = createRandomOperation();
+        operation.setOperationType(OperationType.BUY);
         MarketOperationDTO createDto = MarketOperationMapper.INSTANCE.toDTO(operation);
         Mockito.when(repo.save(any(MarketOperation.class))).thenAnswer(i -> i.getArguments()[0]);
         Mockito.when(browseServiceAccount.getBrokerAccountDomainObjectById(createDto.getAccountId())).thenReturn(operation.getBrokerAccount());

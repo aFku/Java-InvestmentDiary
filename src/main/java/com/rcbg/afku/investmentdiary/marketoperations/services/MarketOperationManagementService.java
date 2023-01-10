@@ -62,7 +62,8 @@ public class MarketOperationManagementService {
     }
 
     private SubjectToAccountAction checkRelationBetweenAccountAndSubject(int accountId, int subjectId, MarketOperationDTO operationDTO){
-        int ownedVolume = repo.calculateNumberOfVolumesForAccount(accountId, subjectId);
+        Integer ownedVolume = repo.calculateNumberOfVolumesForAccount(accountId, subjectId);
+        if (ownedVolume == null) {return null;}
         switch (operationDTO.getOperationType()){
             case "BUY":
                 if(ownedVolume > 0) { return SubjectToAccountAction.NONE; }

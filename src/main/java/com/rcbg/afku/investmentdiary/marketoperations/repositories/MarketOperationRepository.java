@@ -10,5 +10,5 @@ import org.springframework.data.repository.query.Param;
 public interface MarketOperationRepository extends JpaRepository<MarketOperation, Long>, JpaSpecificationExecutor<MarketOperation> {
 
     @Query(value = "SELECT SUM((CASE WHEN market_operation.operation_type = 'BUY' THEN 1 ELSE -1 END) * market_operation.volume) AS 'Volume' FROM market_operation WHERE market_operation.market_subject_id = :subjectId and market_operation.broker_account_id = :accountId", nativeQuery = true)
-    int calculateNumberOfVolumesForAccount(@Param("accountId") int accountId, @Param("subjectId") int subjectId);
+    Integer calculateNumberOfVolumesForAccount(@Param("accountId") int accountId, @Param("subjectId") int subjectId);
 }
