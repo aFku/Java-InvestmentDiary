@@ -6,14 +6,8 @@ import com.rcbg.afku.investmentdiary.marketoperations.datatransferobjects.Market
 import com.rcbg.afku.investmentdiary.marketoperations.entities.MarketOperation;
 import com.rcbg.afku.investmentdiary.marketoperations.exceptions.MarketOperationNotFoundException;
 import com.rcbg.afku.investmentdiary.marketoperations.repositories.MarketOperationRepository;
-import com.rcbg.afku.investmentdiary.marketoperations.services.MarketOperationBrowseService;
 import com.rcbg.afku.investmentdiary.marketoperations.services.MarketOperationManagementService;
-import com.rcbg.afku.investmentdiary.marketsubjects.datatransferobjects.MarketSubjectDTO;
-import com.rcbg.afku.investmentdiary.marketsubjects.entities.MarketSubject;
-import com.rcbg.afku.investmentdiary.marketsubjects.exceptions.MarketSubjectNotFound;
-import com.rcbg.afku.investmentdiary.marketsubjects.repositories.MarketSubjectRepository;
 import com.rcbg.afku.investmentdiary.marketsubjects.services.MarketSubjectBrowseService;
-import com.rcbg.afku.investmentdiary.marketsubjects.services.MarketSubjectManagementService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

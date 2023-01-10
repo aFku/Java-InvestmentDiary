@@ -1,11 +1,7 @@
 package com.rcbg.afku.investmentdiary.common.search;
 
 import com.rcbg.afku.investmentdiary.brokeraccounts.services.BrokerAccountManagementService;
-import com.rcbg.afku.investmentdiary.marketoperations.entities.MarketOperation;
 import com.rcbg.afku.investmentdiary.marketoperations.entities.OperationType;
-import com.rcbg.afku.investmentdiary.marketsubjects.services.MarketSubjectManagementService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;

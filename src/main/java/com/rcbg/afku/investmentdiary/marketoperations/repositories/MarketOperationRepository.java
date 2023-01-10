@@ -2,7 +2,6 @@ package com.rcbg.afku.investmentdiary.marketoperations.repositories;
 
 import com.rcbg.afku.investmentdiary.brokeraccounts.entities.BrokerAccount;
 import com.rcbg.afku.investmentdiary.marketoperations.entities.MarketOperation;
-import com.rcbg.afku.investmentdiary.marketsubjects.entities.MarketSubject;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
