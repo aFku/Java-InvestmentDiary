@@ -25,6 +25,7 @@ class TestMarketOperations(InvestmentDiaryBaseTestClass):
                 requests.post(self.subjects_url(), json=data[subject_index])
         with open('marketoperations.json', 'r') as f:
             data = json.load(f)
+            data = sorted(data, key=lambda d: d["operationType"])
             for operation in data:
                 response = requests.post(self.operations_url(), json=operation)
 
@@ -206,11 +207,6 @@ class TestMarketOperations(InvestmentDiaryBaseTestClass):
         expected = ["There is no page with number 10 for this resource. Max page index with size 2 is 0"]
         self.validate_error_response(expected, response, 404)
 
-
-
-
-
-
     def test_market_operation_get_search_equality(self):
         self.create_market_operations_for_search_test()
         payload = {
@@ -261,7 +257,7 @@ class TestMarketOperations(InvestmentDiaryBaseTestClass):
         response = requests.get(self.operations_url() + query, params=payload)
         response_parsed = json.loads(response.text)["data"]
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response_parsed), 22)
+        self.assertEqual(len(response_parsed), 23)
 
     def test_market_operation_get_search_lesser_than(self):
         self.create_market_operations_for_search_test()
@@ -275,3 +271,11 @@ class TestMarketOperations(InvestmentDiaryBaseTestClass):
         response_parsed = json.loads(response.text)["data"]
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response_parsed), 24)
+
+    def test_add_market_operation_sell_with_not_enough_volume(self):
+        payload = self.build_operation_payload()
+        requests.post(self.operations_url(), json=payload)
+        payload = self.build_operation_payload(operationType="SELL", volume=15)
+        response = requests.post(self.operations_url(), json=payload)
+        expected = ["Trying to sell: 15 when owned: 10"]
+        self.validate_error_response(expected, response, 400)

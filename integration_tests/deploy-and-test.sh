@@ -33,5 +33,5 @@ if [ $exit_code = 0 ]; then
 else
   echo "TESTS: FAILED"
 fi
-#docker-compose -f integration-compose.yaml down
+docker-compose -f integration-compose.yaml down
 exit $exit_code
