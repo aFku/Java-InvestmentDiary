@@ -1,5 +1,6 @@
 package com.rcbg.afku.investmentdiary.common.controllers;
 
+import com.rcbg.afku.investmentdiary.common.exceptions.DateParseException;
 import com.rcbg.afku.investmentdiary.common.exceptions.PaginationPageNotFoundException;
 import com.rcbg.afku.investmentdiary.common.responses.BaseApiErrorResponse;
 import org.slf4j.Logger;
@@ -23,7 +24,7 @@ public class GeneralControllerAdvice extends BaseControllerAdvice {
 
     private static final Logger logger = LoggerFactory.getLogger(GeneralControllerAdvice.class);
 
-    @ExceptionHandler({IllegalArgumentException.class, PropertyReferenceException.class})
+    @ExceptionHandler({IllegalArgumentException.class, PropertyReferenceException.class, DateParseException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<BaseApiErrorResponse> handleBadRequest(RuntimeException ex, HttpServletRequest request){
         BaseApiErrorResponse response = processErrorToResponse(logger, ex, request, HttpStatus.BAD_REQUEST);

@@ -1,15 +1,19 @@
 package com.rcbg.afku.investmentdiary.common.search;
 
 import com.rcbg.afku.investmentdiary.brokeraccounts.services.BrokerAccountManagementService;
+import com.rcbg.afku.investmentdiary.common.exceptions.DateParseException;
+import com.rcbg.afku.investmentdiary.common.utils.DateParser;
 import com.rcbg.afku.investmentdiary.marketoperations.entities.OperationType;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class SpecificationsBuilder<T>{
-
     private final List<SearchCriteria> params = new ArrayList<>();
 
     public  SpecificationsBuilder<T> with(String key, String operation, String value){
