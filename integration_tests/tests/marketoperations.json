@@ -26,7 +26,7 @@
     {
         "operationDate": "2022-07-19",
         "pricePerOne": 84.66,
-        "volume": 40,
+        "volume": 35,
         "operationType": "SELL",
         "subjectId": 3,
         "accountId": 1
@@ -34,7 +34,7 @@
     {
         "operationDate": "2022-10-09",
         "pricePerOne": 16.07,
-        "volume": 48,
+        "volume": 30,
         "operationType": "SELL",
         "subjectId": 2,
         "accountId": 3
@@ -50,7 +50,7 @@
     {
         "operationDate": "2022-12-09",
         "pricePerOne": 61.88,
-        "volume": 74,
+        "volume": 55,
         "operationType": "SELL",
         "subjectId": 3,
         "accountId": 3
@@ -58,7 +58,7 @@
     {
         "operationDate": "2022-03-21",
         "pricePerOne": 50.76,
-        "volume": 37,
+        "volume": 10,
         "operationType": "SELL",
         "subjectId": 2,
         "accountId": 1
@@ -82,7 +82,7 @@
     {
         "operationDate": "2022-08-10",
         "pricePerOne": 97.58,
-        "volume": 14,
+        "volume": 39,
         "operationType": "BUY",
         "subjectId": 2,
         "accountId": 3
@@ -90,7 +90,7 @@
     {
         "operationDate": "2022-11-02",
         "pricePerOne": 87.87,
-        "volume": 19,
+        "volume": 90,
         "operationType": "BUY",
         "subjectId": 3,
         "accountId": 3
@@ -154,7 +154,7 @@
     {
         "operationDate": "2022-01-07",
         "pricePerOne": 7.11,
-        "volume": 100,
+        "volume": 51,
         "operationType": "SELL",
         "subjectId": 2,
         "accountId": 3
@@ -162,7 +162,7 @@
     {
         "operationDate": "2022-07-08",
         "pricePerOne": 90.25,
-        "volume": 83,
+        "volume": 230,
         "operationType": "BUY",
         "subjectId": 2,
         "accountId": 1
@@ -186,7 +186,7 @@
     {
         "operationDate": "2022-05-13",
         "pricePerOne": 91.6,
-        "volume": 71,
+        "volume": 52,
         "operationType": "SELL",
         "subjectId": 3,
         "accountId": 3
@@ -194,7 +194,7 @@
     {
         "operationDate": "2022-01-07",
         "pricePerOne": 47.97,
-        "volume": 68,
+        "volume": 51,
         "operationType": "BUY",
         "subjectId": 2,
         "accountId": 3
@@ -226,7 +226,7 @@
     {
         "operationDate": "2022-03-13",
         "pricePerOne": 19.33,
-        "volume": 42,
+        "volume": 10,
         "operationType": "SELL",
         "subjectId": 3,
         "accountId": 3
@@ -274,7 +274,7 @@
     {
         "operationDate": "2022-07-30",
         "pricePerOne": 81.97,
-        "volume": 24,
+        "volume": 41,
         "operationType": "BUY",
         "subjectId": 3,
         "accountId": 3

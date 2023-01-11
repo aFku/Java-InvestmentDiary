@@ -61,15 +61,23 @@ class InvestmentDiaryBaseTestClass(unittest.TestCase):
         self.assertEqual(response.status_code, code)
         response_content = json.loads(response.text)["messages"]
         self.compare_lists(payload, response_content)
+
     def operations_url(self, suffix=None):
         url = f"http://{self.app_endpoint}/operations"
         url += f"/{suffix}" if suffix else ""
         return url
+
     def subjects_url(self, suffix=None):
         url = f"http://{self.app_endpoint}/subjects"
         url += f"/{suffix}" if suffix else ""
         return url
+
     def accounts_url(self, suffix=None):
         url = f"http://{self.app_endpoint}/accounts"
         url += f"/{suffix}" if suffix else ""
+        return url
+
+    def wallet_url(self, suffix=None):
+        url = self.accounts_url(suffix=suffix)
+        url += "/wallet"
         return url

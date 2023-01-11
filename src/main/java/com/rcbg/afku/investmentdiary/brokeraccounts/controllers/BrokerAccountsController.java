@@ -4,6 +4,7 @@ import com.rcbg.afku.investmentdiary.brokeraccounts.datatransferobjects.BrokerAc
 import com.rcbg.afku.investmentdiary.brokeraccounts.entities.BrokerAccount;
 import com.rcbg.afku.investmentdiary.brokeraccounts.services.BrokerAccountBrowseService;
 import com.rcbg.afku.investmentdiary.brokeraccounts.services.BrokerAccountManagementService;
+import com.rcbg.afku.investmentdiary.brokeraccounts.services.WalletService;
 import com.rcbg.afku.investmentdiary.common.datatransferobjects.CommonPaginationDTO;
 import com.rcbg.afku.investmentdiary.common.responses.CommonModelPaginationResponse;
 import com.rcbg.afku.investmentdiary.common.responses.CommonResourceDeletedResponse;
@@ -29,11 +30,13 @@ import java.util.regex.Pattern;
 public class BrokerAccountsController {
     private final BrokerAccountManagementService managementService;
     private final BrokerAccountBrowseService browseService;
+    private final WalletService walletService;
 
     @Autowired
-    public BrokerAccountsController(BrokerAccountManagementService managementService, BrokerAccountBrowseService browseService){
+    public BrokerAccountsController(BrokerAccountManagementService managementService, BrokerAccountBrowseService browseService, WalletService walletService){
         this.managementService = managementService;
         this.browseService = browseService;
+        this.walletService = walletService;
     }
 
     @PostMapping
@@ -81,6 +84,20 @@ public class BrokerAccountsController {
         } else {
             paginationDTO = browseService.findAllBrokerAccounts(pageable);
         }
+        CommonModelPaginationResponse response = new CommonModelPaginationResponse(200, request.getRequestURI(), "list", paginationDTO);
+        return new ResponseEntity<>(response, new HttpHeaders(), 200);
+    }
+
+    @GetMapping(value = "/{id}/wallet")
+    ResponseEntity<CommonModelPaginationResponse> getWalletByAccountId(HttpServletRequest request, @PathVariable int id, Pageable pageable){
+        CommonPaginationDTO paginationDTO = walletService.getWalletByBrokerAccountId(id, pageable);
+        CommonModelPaginationResponse response = new CommonModelPaginationResponse(200, request.getRequestURI(), "list", paginationDTO);
+        return new ResponseEntity<>(response, new HttpHeaders(), 200);
+    }
+
+    @GetMapping(value = "/wallet")
+    ResponseEntity<CommonModelPaginationResponse> getWalletFromAllBrokerAccounts(HttpServletRequest request, Pageable pageable){
+        CommonPaginationDTO paginationDTO = walletService.getWalletFromAllBrokerAccounts(pageable);
         CommonModelPaginationResponse response = new CommonModelPaginationResponse(200, request.getRequestURI(), "list", paginationDTO);
         return new ResponseEntity<>(response, new HttpHeaders(), 200);
     }
