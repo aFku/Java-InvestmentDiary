@@ -20,6 +20,7 @@ export TESTS_VERSION=latest
 location=$(pwd)
 if [ "$1" = "build" ]; then
   cd ../
+  mvn clean install
   docker build -t "investment-app:$APP_VERSION" -f integration_tests/app/Dockerfile .
   docker build -t "integration-tests:$TESTS_VERSION" -f integration_tests/tests/Dockerfile .
   cd $location
