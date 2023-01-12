@@ -9,6 +9,7 @@ class InvestmentDiaryBaseTestClass(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.maxDiff = 1000
         self.setup_envs()
         self.engine = self.build_engine()
         self.db_connection = self.engine.connect()
@@ -80,4 +81,9 @@ class InvestmentDiaryBaseTestClass(unittest.TestCase):
     def wallet_url(self, suffix=None):
         url = self.accounts_url(suffix=suffix)
         url += "/wallet"
+        return url
+
+    def stats_url(self, suffix=None):
+        url = self.accounts_url(suffix=suffix)
+        url += "/statistics"
         return url
