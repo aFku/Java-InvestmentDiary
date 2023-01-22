@@ -146,10 +146,10 @@ Delete existing market operation with given ID
 ## Schemas
 
 ### BrokerAccountDTO
-<img src="https://github.com/aFku/Java-InvestmentDiary/blob/main/img/accounts.PNG" width="240" height="130">
+<img src="https://github.com/aFku/Java-InvestmentDiary/blob/main/img/accounts.PNG" width="360" height="195">
 
 ### MarketSubjectDTO
-<img src="https://github.com/aFku/Java-InvestmentDiary/blob/main/img/subject.PNG" width="240" height="130">
+<img src="https://github.com/aFku/Java-InvestmentDiary/blob/main/img/subjects.PNG" width="360" height="195">
 
 ### MarketOperationDTO
-<img src="https://github.com/aFku/Java-InvestmentDiary/blob/main/img/operations.PNG" width="240" height="130">
+<img src="https://github.com/aFku/Java-InvestmentDiary/blob/main/img/operations.PNG" width="360" height="195">
