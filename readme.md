@@ -27,29 +27,21 @@ With these features, my app can also show a user their "wallets" based on a sing
 
 To deploy "production" version of this app you need to execute deploy script /deploy/deploy-prod.sh from /deploy directory:
 
-<code>
-cd deploy 
-<br>
-./deploy-prod.sh
-</code>
+<code>cd deploy 
+./deploy-prod.sh</code>
 
 Then application should be deployed and available on localhost:8080
 
 Due to some problems with Java integration tests I decided to write them in python. To run these tests you need to go to /integration_tests and run deploy-and-test.sh
 
-<code>
-cd integration_tests
-<br>
-./deploy-and-test.sh
-</code>
+<code>cd integration_tests
+./deploy-and-test.sh</code>
 
 This will deploy all necessary containers (application + MySQL + tests) and show you logs from test container.
 
 Both deploying scripts contain variables that can be changed for example to change MySQL password. Both of them also support argument "build" which triggers building process for all necessary images.
 
-<code>
-./deploy-and-test.sh build
-</code>
+<code>./deploy-and-test.sh build</code>
 
 This command will build application image and image with tests, when deploy-prod.sh will build only application image
 
