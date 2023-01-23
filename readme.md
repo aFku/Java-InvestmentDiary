@@ -19,7 +19,7 @@ With these features, my app can also show a user their "wallets" based on a sing
 - Basics of pagination
 - Basics of search by specification
 - Basics of MapStruct
-- Unittesting in Java
+- Unit testing in Java
 - Basics of designing REST API with Java and Spring Boot
 - Automatic generation of OpenAPI docs with springdoc
 
